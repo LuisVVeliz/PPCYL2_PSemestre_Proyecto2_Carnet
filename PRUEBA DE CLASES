@@ -1,2 +1,24 @@
-snnsndbdkdndndndndndmdkdkdkdkddk
-hola mundo
+
+class Auto:
+
+    def __init__(self, marca, modelo):
+        self.marca = marca
+        self.modelo = modelo
+
+
+class Persona:
+
+    def __init__(self, nombre, auto):
+        self.nombre = nombre
+        self.auto = auto
+
+class Vehiculo:
+
+    def mover(self):
+        print("El vehículo se mueve")
+
+
+class Auto(Vehiculo):
+
+    def tocar_bocina(self):
+        print("Beep beep")
