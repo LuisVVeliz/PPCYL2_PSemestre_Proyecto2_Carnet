@@ -1,0 +1,44 @@
+{% extends 'login/estudiante/base_estudiante.html' %}
+
+{% block title %}Mis Notas{% endblock %}
+{% block header %}MIS NOTAS{% endblock %}
+
+{% block content %}
+
+<form method="post">
+    {% csrf_token %}
+
+    <div style="margin-bottom: 20px;">
+        <select name="curso">
+            <option value="">Curso</option>
+            <option value="Curso1">Curso1</option>
+            <option value="Curso2">Curso2</option>
+        </select>
+
+        <button type="submit" style="margin-left: 10px;">
+            Consultar
+        </button>
+    </div>
+</form>
+
+<table>
+    <tr>
+        <th>Actividad</th>
+        <th>Nota</th>
+    </tr>
+
+    {% if notas %}
+        {% for n in notas %}
+        <tr>
+            <td>{{ n.actividad }}</td>
+            <td>{{ n.valor }}</td>
+        </tr>
+        {% endfor %}
+    {% else %}
+        <tr>
+            <td colspan="2">No hay información para mostrar</td>
+        </tr>
+    {% endif %}
+</table>
+
+{% endblock %}

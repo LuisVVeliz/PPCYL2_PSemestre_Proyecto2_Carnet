@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}Tutor{% endblock %}</title>
+
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, Helvetica, sans-serif;
+            background-color: #f4f4f4;
+        }
+
+        .container {
+            display: flex;
+            height: 100vh;
+        }
+
+        /* Sidebar */
+        .sidebar {
+            width: 230px;
+            background-color: #2d3e50;
+            color: white;
+            padding: 20px;
+        }
+
+        .sidebar h3 {
+            text-align: center;
+            margin-bottom: 25px;
+        }
+
+        .sidebar a {
+            display: block;
+            color: white;
+            padding: 10px;
+            text-decoration: none;
+            margin-bottom: 5px;
+            border-radius: 5px;
+        }
+
+        .sidebar a:hover {
+            background-color: #1abc9c;
+        }
+
+        /* Main content */
+        .content {
+            flex: 1;
+            padding: 30px;
+            background-color: #ffffff;
+            overflow-y: auto;
+        }
+
+        h2 {
+            margin-top: 0;
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="container">
+
+    <!-- Menú lateral Tutor -->
+    <div class="sidebar">
+    <h3>Tutor</h3>
+
+    <a href="{% url 'tutor_horarios' %}">Horarios</a>
+    <!-- Las siguientes vistas se activarán después -->
+    <a href="{% url 'tutor_notas' %}">Ingreso de Notas</a>
+    <a href="{% url 'tutor_reporte_promedio' %}">Reporte Promedios</a>
+    <a href="{% url 'tutor_top_notas' %}">Top Notas por Actividad</a>
+
+    <hr>
+
+    <a href="{% url 'login' %}">Cerrar Sesión</a>
+</div>
+
+    <!-- Contenido dinámico -->
+    <div class="content">
+        {% block content %}
+        <!-- Aquí se insertarán las vistas hijas -->
+        {% endblock %}
+    </div>
+
+</div>
+
+</body>
+</html>
