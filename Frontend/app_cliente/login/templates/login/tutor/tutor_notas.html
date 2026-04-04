@@ -1,0 +1,39 @@
+{% extends 'login/tutor/base_tutor.html' %}
+
+{% block title %}Ingreso de Notas{% endblock %}
+
+{% block content %}
+<h2>INGRESO DE NOTAS</h2>
+
+<p>
+    En esta seccion debes cargar un archivo XML con las notas de los estudiantes.
+</p>
+
+{% if mensaje %}
+<p class="message">{{ mensaje }}</p>
+{% endif %}
+
+{% if error %}
+<p class="error">{{ error }}</p>
+{% endif %}
+
+<form method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+
+    <div style="margin-top: 20px;">
+        <button type="submit">Cargar Archivo XML/TXT de Notas</button>
+
+        <input type="file"
+               name="archivo_xml"
+               accept=".xml,.txt"
+               required
+               style="margin-left: 10px;">
+
+        <input type="text"
+               value="{{ archivo }}"
+               placeholder="Ningun archivo seleccionado"
+               readonly
+               style="margin-left: 10px; width: 260px;">
+    </div>
+</form>
+{% endblock %}

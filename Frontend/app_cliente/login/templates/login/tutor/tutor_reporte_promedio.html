@@ -1,0 +1,51 @@
+{% extends 'login/tutor/base_tutor.html' %}
+
+{% block title %}Reporte Promedio de Notas{% endblock %}
+
+{% block content %}
+<h2>REPORTE PROMEDIO DE NOTAS</h2>
+
+{% if error %}
+<p class="error">{{ error }}</p>
+{% endif %}
+
+<form method="post">
+    {% csrf_token %}
+
+    <div style="margin-bottom: 20px;">
+        <label for="curso"><strong>Curso:</strong></label>
+
+        <select name="curso" id="curso" style="margin-left: 10px;">
+            <option value="">-- Seleccionar --</option>
+            {% for curso in cursos %}
+            <option value="{{ curso }}" {% if curso == curso_seleccionado %}selected{% endif %}>{{ curso }}</option>
+            {% endfor %}
+        </select>
+
+        <button type="submit" style="margin-left: 10px;">Generar</button>
+        <button type="button" style="margin-left: 10px;">Generar PDF</button>
+    </div>
+</form>
+
+{% if mostrar %}
+<div style="border: 1px solid #ccc; padding: 20px;">
+    <h3>Reporte generado</h3>
+    <p><strong>Curso:</strong> {{ reporte.curso }}</p>
+    <p><strong>Promedio general:</strong> {{ reporte.promedio }}</p>
+    <p><strong>Total de registros:</strong> {{ reporte.total_registros }}</p>
+
+    <table style="width: 100%; border-collapse: collapse; margin-top: 20px;">
+        <tr style="background-color: #f0f0f0;">
+            <th style="border: 1px solid #ccc; padding: 10px;">Actividad</th>
+            <th style="border: 1px solid #ccc; padding: 10px;">Promedio</th>
+        </tr>
+        {% for item in reporte.actividades %}
+        <tr>
+            <td style="border: 1px solid #ccc; padding: 10px;">{{ item.actividad }}</td>
+            <td style="border: 1px solid #ccc; padding: 10px;">{{ item.promedio }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+</div>
+{% endif %}
+{% endblock %}

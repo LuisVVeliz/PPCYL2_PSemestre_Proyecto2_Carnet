@@ -1,0 +1,194 @@
+{
+  "admin_xml": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\r\n\r\n<configuraciones>\r\n\r\n    <cursos>\r\n        <curso codigo=\"770\">Programaci\u00f3n</curso>\r\n        <curso codigo=\"771\">Base de Datos</curso>\r\n    </cursos>\r\n\r\n    <tutores>\r\n        <tutor registro_personal=\"1111\" contrasenia=\"1234\">Carlos Tutor</tutor>\r\n        <tutor registro_personal=\"2222\" contrasenia=\"1234\">Mar\u00eda Tutor</tutor>\r\n    </tutores>\r\n\r\n    <estudiantes>\r\n        <estudiante carnet=\"1234\" contrasenia=\"1234\">Juan P\u00e9rez</estudiante>\r\n        <estudiante carnet=\"5678\" contrasenia=\"1234\">Ana L\u00f3pez</estudiante>\r\n    </estudiantes>\r\n\r\n    <asignaciones>\r\n\r\n        <c_tutores>\r\n            <tutor_curso codigo=\"770\">1111</tutor_curso>\r\n            <tutor_curso codigo=\"771\">2222</tutor_curso>\r\n        </c_tutores>\r\n\r\n        <c_estudiante>\r\n            <estudiante_curso codigo=\"770\">1234</estudiante_curso>\r\n            <estudiante_curso codigo=\"770\">5678</estudiante_curso>\r\n            <estudiante_curso codigo=\"771\">1234</estudiante_curso>\r\n        </c_estudiante>\r\n\r\n    </asignaciones>\r\n\r\n</configuraciones>",
+  "admin_output": "XML procesado correctamente.\nUsuarios detectados: 4\nHorarios detectados: 2\nCursos detectados: 2\nNotas detectadas: 0",
+  "users": [
+    {
+      "id": "1111",
+      "usuario": "1111",
+      "password": "1234",
+      "role": "tutor",
+      "nombre": "Carlos Tutor",
+      "carnet": "1111",
+      "carrera": ""
+    },
+    {
+      "id": "2222",
+      "usuario": "2222",
+      "password": "1234",
+      "role": "tutor",
+      "nombre": "Mar\u00eda Tutor",
+      "carnet": "2222",
+      "carrera": ""
+    },
+    {
+      "id": "1234",
+      "usuario": "1234",
+      "password": "1234",
+      "role": "estudiante",
+      "nombre": "Juan P\u00e9rez",
+      "carnet": "1234",
+      "carrera": ""
+    },
+    {
+      "id": "5678",
+      "usuario": "5678",
+      "password": "1234",
+      "role": "estudiante",
+      "nombre": "Ana L\u00f3pez",
+      "carnet": "5678",
+      "carrera": ""
+    }
+  ],
+  "horarios": [
+    {
+      "nombre": "101",
+      "lunes": "09:40 - 10:30",
+      "martes": "09:40 - 10:30",
+      "miercoles": "09:40 - 10:30",
+      "jueves": "09:40 - 10:30",
+      "viernes": "09:40 - 10:30"
+    },
+    {
+      "nombre": "102",
+      "lunes": "10:40 - 11:30",
+      "martes": "10:40 - 11:30",
+      "miercoles": "10:40 - 11:30",
+      "jueves": "10:40 - 11:30",
+      "viernes": "10:40 - 11:30"
+    },
+    {
+      "nombre": "103",
+      "lunes": "12:00 - 13:00",
+      "martes": "12:00 - 13:00",
+      "miercoles": "12:00 - 13:00",
+      "jueves": "12:00 - 13:00",
+      "viernes": "12:00 - 13:00"
+    }
+  ],
+  "notas": [
+    {
+      "tutor": "1111",
+      "curso": "770",
+      "curso_nombre": "Programaci\u00f3n",
+      "actividad": "Tarea1",
+      "valor": 90,
+      "valor_numerico": 90.0,
+      "estudiante": "1234"
+    },
+    {
+      "tutor": "1111",
+      "curso": "770",
+      "curso_nombre": "Programaci\u00f3n",
+      "actividad": "Tarea1",
+      "valor": 80,
+      "valor_numerico": 80.0,
+      "estudiante": "5678"
+    },
+    {
+      "tutor": "1111",
+      "curso": "770",
+      "curso_nombre": "Programaci\u00f3n",
+      "actividad": "Parcial1",
+      "valor": 85,
+      "valor_numerico": 85.0,
+      "estudiante": "1234"
+    },
+    {
+      "tutor": "1111",
+      "curso": "770",
+      "curso_nombre": "Programaci\u00f3n",
+      "actividad": "Parcial1",
+      "valor": 75,
+      "valor_numerico": 75.0,
+      "estudiante": "5678"
+    },
+    {
+      "tutor": "1111",
+      "curso": "771",
+      "curso_nombre": "Base de Datos",
+      "actividad": "Tarea1",
+      "valor": 88,
+      "valor_numerico": 88.0,
+      "estudiante": "1122"
+    },
+    {
+      "tutor": "1111",
+      "curso": "771",
+      "curso_nombre": "Base de Datos",
+      "actividad": "Parcial1",
+      "valor": 92,
+      "valor_numerico": 92.0,
+      "estudiante": "1122"
+    }
+  ],
+  "notas_indexadas": {
+    "1234": {
+      "770": [
+        {
+          "tutor": "1111",
+          "curso": "770",
+          "curso_nombre": "Programaci\u00f3n",
+          "actividad": "Tarea1",
+          "valor": 90,
+          "valor_numerico": 90.0,
+          "estudiante": "1234"
+        },
+        {
+          "tutor": "1111",
+          "curso": "770",
+          "curso_nombre": "Programaci\u00f3n",
+          "actividad": "Parcial1",
+          "valor": 85,
+          "valor_numerico": 85.0,
+          "estudiante": "1234"
+        }
+      ]
+    },
+    "5678": {
+      "770": [
+        {
+          "tutor": "1111",
+          "curso": "770",
+          "curso_nombre": "Programaci\u00f3n",
+          "actividad": "Tarea1",
+          "valor": 80,
+          "valor_numerico": 80.0,
+          "estudiante": "5678"
+        },
+        {
+          "tutor": "1111",
+          "curso": "770",
+          "curso_nombre": "Programaci\u00f3n",
+          "actividad": "Parcial1",
+          "valor": 75,
+          "valor_numerico": 75.0,
+          "estudiante": "5678"
+        }
+      ]
+    },
+    "1122": {
+      "771": [
+        {
+          "tutor": "1111",
+          "curso": "771",
+          "curso_nombre": "Base de Datos",
+          "actividad": "Tarea1",
+          "valor": 88,
+          "valor_numerico": 88.0,
+          "estudiante": "1122"
+        },
+        {
+          "tutor": "1111",
+          "curso": "771",
+          "curso_nombre": "Base de Datos",
+          "actividad": "Parcial1",
+          "valor": 92,
+          "valor_numerico": 92.0,
+          "estudiante": "1122"
+        }
+      ]
+    }
+  },
+  "last_horario_file": "HORARIOS.xml",
+  "last_notas_file": "NOTAS FINALES.xml"
+}

@@ -1,0 +1,30 @@
+from django.urls import path
+from .views import (
+    login_view,
+    logout_view,
+    admin_panel,
+    cargar_xml,
+    ver_usuarios,
+    informacion,
+    tutor_horarios,
+    tutor_notas,
+    tutor_reporte_promedio,
+    tutor_top_notas,
+    estudiante_notas,
+)
+
+urlpatterns = [
+    path('', login_view, name='login'),
+    path('logout/', logout_view, name='logout'),
+    path('admin-panel/', admin_panel, name='admin_panel'),
+    path('cargar-xml/', cargar_xml, name='cargar_xml'),
+    path('ver-usuarios/', ver_usuarios, name='ver_usuarios'),
+    path('informacion/', informacion, name='informacion'),
+
+    path('tutor-horarios/', tutor_horarios, name='tutor_horarios'),
+    path('tutor-notas/', tutor_notas, name='tutor_notas'),
+    path('tutor-reporte-promedio/', tutor_reporte_promedio, name='tutor_reporte_promedio'),
+    path('tutor-top-notas/', tutor_top_notas, name='tutor_top_notas'),
+    path('estudiante-notas/', estudiante_notas, name='estudiante_notas'),
+
+]

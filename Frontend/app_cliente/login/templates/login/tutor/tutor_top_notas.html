@@ -1,0 +1,57 @@
+{% extends 'login/tutor/base_tutor.html' %}
+
+{% block title %}Top Notas por Actividad{% endblock %}
+
+{% block content %}
+<h2>TOP NOTAS POR ACTIVIDAD</h2>
+
+{% if error %}
+<p class="error">{{ error }}</p>
+{% endif %}
+
+<form method="post">
+    {% csrf_token %}
+
+    <div style="margin-bottom: 20px;">
+        <label><strong>Curso:</strong></label>
+        <select name="curso" style="margin-left: 10px;">
+            <option value="">-- Seleccionar --</option>
+            {% for curso in cursos %}
+            <option value="{{ curso }}" {% if curso == curso_seleccionado %}selected{% endif %}>{{ curso }}</option>
+            {% endfor %}
+        </select>
+
+        <label style="margin-left: 20px;"><strong>Actividad:</strong></label>
+        <select name="actividad" style="margin-left: 10px;">
+            <option value="">-- Seleccionar --</option>
+            {% for actividad in actividades %}
+            <option value="{{ actividad }}" {% if actividad == actividad_seleccionada %}selected{% endif %}>{{ actividad }}</option>
+            {% endfor %}
+        </select>
+
+        <button type="submit" style="margin-left: 20px;">Generar</button>
+        <button type="button" style="margin-left: 10px;">Generar PDF</button>
+    </div>
+</form>
+
+{% if mostrar %}
+<div style="border: 1px solid #ccc; padding: 20px;">
+    <h3>Top de notas</h3>
+    <p><strong>Curso:</strong> {{ reporte.curso }}</p>
+    <p><strong>Actividad:</strong> {{ reporte.actividad }}</p>
+
+    <table style="width: 100%; border-collapse: collapse; margin-top: 20px;">
+        <tr style="background-color: #f0f0f0;">
+            <th style="border: 1px solid #ccc; padding: 10px;">Estudiante</th>
+            <th style="border: 1px solid #ccc; padding: 10px;">Nota</th>
+        </tr>
+        {% for item in reporte.top %}
+        <tr>
+            <td style="border: 1px solid #ccc; padding: 10px;">{{ item.estudiante }}</td>
+            <td style="border: 1px solid #ccc; padding: 10px;">{{ item.valor }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+</div>
+{% endif %}
+{% endblock %}
