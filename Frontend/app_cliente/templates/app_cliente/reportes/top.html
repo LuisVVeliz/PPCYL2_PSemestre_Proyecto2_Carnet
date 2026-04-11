@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>TOP Notas</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; }
+        h1 { color: #333; }
+        .grafico { margin: 20px 0; }
+    </style>
+</head>
+<body>
+    <h1>🏆 TOP Notas</h1>
+    <p><strong>Curso:</strong> {{ curso }} | <strong>Actividad:</strong> {{ actividad }}</p>
+    <div class="grafico">
+        {{ grafico|safe }}
+    </div>
+</body>
+</html>

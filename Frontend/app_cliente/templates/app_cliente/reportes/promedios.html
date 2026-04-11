@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Reporte de Promedios</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; }
+        h1 { color: #333; }
+        .grafico { margin: 20px 0; }
+    </style>
+</head>
+<body>
+    <h1>📊 Reporte de Promedios</h1>
+    <p><strong>Curso:</strong> {{ curso }}</p>
+    <div class="grafico">
+        {{ grafico|safe }}
+    </div>
+</body>
+</html>

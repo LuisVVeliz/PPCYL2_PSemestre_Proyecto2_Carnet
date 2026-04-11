@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>TOP Notas</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; }
+        h1 { color: #333; }
+        .selector { margin: 20px 0; padding: 10px; background-color: #f0f0f0; border-radius: 5px; }
+        select { padding: 5px; font-size: 14px; margin-right: 10px; }
+        .grafico { margin: 20px 0; }
+        .btn-pdf {
+            background-color: #FF5722;
+            color: white;
+            padding: 10px 20px;
+            text-decoration: none;
+            border-radius: 5px;
+            display: inline-block;
+        }
+        .btn-pdf:hover {
+            background-color: #e64a19;
+        }
+    </style>
+    <script>
+        function actualizarActividades() {
+            var curso = document.getElementById('curso').value;
+            var actividadSelect = document.getElementById('actividad');
+            
+            // Limpiar actividades actuales
+            actividadSelect.innerHTML = '<option>Cargando...</option>';
+            
+            // Obtener actividades del curso seleccionado
+            fetch('/api/actividades?curso=' + curso)
+                .then(response => response.json())
+                .then(data => {
+                    actividadSelect.innerHTML = '';
+                    data.actividades.forEach(function(act) {
+                        var option = document.createElement('option');
+                        option.value = act;
+                        option.text = act;
+                        actividadSelect.appendChild(option);
+                    });
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    actividadSelect.innerHTML = '<option value="">Error al cargar</option>';
+                });
+        }
+    </script>
+</head>
+<body>
+    <h1>🏆 TOP Notas</h1>
+    
+    <!-- Selectores de curso y actividad -->
+    <div class="selector">
+        <form method="get" id="filtroForm">
+            <label for="curso">Curso:</label>
+            <select name="curso" id="curso" onchange="this.form.submit()">
+                {% for c in cursos %}
+                    <option value="{{ c }}" {% if c == curso %}selected{% endif %}>
+                        {{ c }}
+                    </option>
+                {% endfor %}
+            </select>
+            
+            <label for="actividad">Actividad:</label>
+            <select name="actividad" id="actividad" onchange="this.form.submit()">
+                {% for a in actividades %}
+                    <option value="{{ a }}" {% if a == actividad %}selected{% endif %}>
+                        {{ a }}
+                    </option>
+                {% endfor %}
+            </select>
+        </form>
+    </div>
+    
+    <p><strong>Curso:</strong> {{ curso }} | <strong>Actividad:</strong> {{ actividad }}</p>
+    
+    <div class="grafico">
+        {{ grafico|safe }}
+    </div>
+    
+    <!-- Botón para exportar a PDF -->
+    <div style="text-align: center; margin-top: 30px;">
+        <a href="/exportar_top/?curso={{ curso }}&actividad={{ actividad }}" class="btn-pdf">📄 Exportar a PDF</a>
+    </div>
+    
+</body>
+</html>

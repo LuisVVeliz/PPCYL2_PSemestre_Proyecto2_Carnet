@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Reporte de Promedios</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; }
+        h1 { color: #333; }
+        .selector { margin: 20px 0; padding: 10px; background-color: #f0f0f0; border-radius: 5px; }
+        select { padding: 5px; font-size: 14px; }
+        .grafico { margin: 20px 0; }
+        .btn-pdf { background-color: #4CAF50; color: white; padding: 10px 20px; text-decoration: none; border-radius: 5px; display: inline-block; }
+        .btn-pdf:hover { background-color: #45a049; }
+    </style>
+</head>
+<body>
+    <h1>📊 Reporte de Promedios</h1>
+    
+    <!-- Selector de cursos -->
+    <div class="selector">
+        <form method="get">
+            <label for="curso">Seleccionar Curso:</label>
+            <select name="curso" id="curso" onchange="this.form.submit()">
+                {% for c in cursos %}
+                    <option value="{{ c }}" {% if c == curso %}selected{% endif %}>
+                        {{ c }}
+                    </option>
+                {% endfor %}
+            </select>
+        </form>
+    </div>
+    
+    <p><strong>Curso actual:</strong> {{ curso }}</p>
+    
+    <div class="grafico">
+        {{ grafico|safe }}
+    </div>
+    
+    <div style="text-align: center; margin-top: 30px;">
+        <a href="/exportar_promedios/?curso={{ curso }}" class="btn-pdf">📄 Exportar a PDF</a>
+    </div>
+</body>
+</html>
