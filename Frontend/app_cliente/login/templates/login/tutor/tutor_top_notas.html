@@ -1,57 +1,170 @@
 {% extends 'login/tutor/base_tutor.html' %}
 
-{% block title %}Top Notas por Actividad{% endblock %}
+{% block title %}TOP Notas por Actividad{% endblock %}
 
 {% block content %}
-<h2>TOP NOTAS POR ACTIVIDAD</h2>
+<style>
+    .grafico-container {
+        margin: 20px 0;
+        padding: 20px;
+        border: 1px solid #ddd;
+        border-radius: 8px;
+        background-color: #f9f9f9;
+    }
+    .grafico-container h3 {
+        margin-top: 0;
+        color: #333;
+        border-bottom: 2px solid #FF5722;
+        padding-bottom: 10px;
+    }
+    .error {
+        color: red;
+        background-color: #ffe0e0;
+        padding: 10px;
+        border-radius: 5px;
+        margin: 10px 0;
+    }
+    .reporte-container {
+        border: 1px solid #ccc;
+        padding: 20px;
+        border-radius: 8px;
+        background-color: white;
+        margin-top: 20px;
+    }
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 20px;
+    }
+    th, td {
+        border: 1px solid #ddd;
+        padding: 10px;
+        text-align: left;
+    }
+    th {
+        background-color: #FF5722;
+        color: white;
+    }
+    tr:hover {
+        background-color: #f5f5f5;
+    }
+    .btn-pdf {
+        background-color: #FF5722;
+        color: white;
+        padding: 10px 20px;
+        text-decoration: none;
+        border-radius: 5px;
+        display: inline-block;
+        border: none;
+        cursor: pointer;
+    }
+    .btn-pdf:hover {
+        background-color: #e64a19;
+    }
+    select, button {
+        padding: 8px;
+        font-size: 14px;
+        border-radius: 4px;
+        border: 1px solid #ccc;
+    }
+    button {
+        background-color: #FF5722;
+        color: white;
+        cursor: pointer;
+    }
+    button:hover {
+        background-color: #e64a19;
+    }
+</style>
+
+<h2>🏆 TOP NOTAS POR ACTIVIDAD</h2>
 
 {% if error %}
-<p class="error">{{ error }}</p>
+    <div class="error">
+        ⚠️ {{ error }}
+    </div>
 {% endif %}
 
 <form method="post">
     {% csrf_token %}
 
     <div style="margin-bottom: 20px;">
-        <label><strong>Curso:</strong></label>
-        <select name="curso" style="margin-left: 10px;">
+        <label for="curso"><strong>Curso:</strong></label>
+        <select name="curso" id="curso" style="margin-left: 10px;" onchange="this.form.submit()">
             <option value="">-- Seleccionar --</option>
             {% for curso in cursos %}
             <option value="{{ curso }}" {% if curso == curso_seleccionado %}selected{% endif %}>{{ curso }}</option>
             {% endfor %}
         </select>
 
-        <label style="margin-left: 20px;"><strong>Actividad:</strong></label>
-        <select name="actividad" style="margin-left: 10px;">
+        <label for="actividad" style="margin-left: 20px;"><strong>Actividad:</strong></label>
+        <select name="actividad" id="actividad" style="margin-left: 10px;">
             <option value="">-- Seleccionar --</option>
-            {% for actividad in actividades %}
-            <option value="{{ actividad }}" {% if actividad == actividad_seleccionada %}selected{% endif %}>{{ actividad }}</option>
+            {% for act in actividades %}
+            <option value="{{ act }}" {% if act == actividad_seleccionada %}selected{% endif %}>{{ act }}</option>
             {% endfor %}
         </select>
 
-        <button type="submit" style="margin-left: 20px;">Generar</button>
-        <button type="button" style="margin-left: 10px;">Generar PDF</button>
+        <button type="submit" style="margin-left: 10px;">🏆 Generar</button>
     </div>
 </form>
 
+<!-- ========== GRÁFICO DE BARRAS HORIZONTAL ========== -->
+{% if grafico %}
+<div class="grafico-container">
+    <h3>📊 Gráfico TOP Notas</h3>
+    {{ grafico|safe }}
+</div>
+{% endif %}
+
 {% if mostrar %}
-<div style="border: 1px solid #ccc; padding: 20px;">
-    <h3>Top de notas</h3>
+<div class="reporte-container">
+    <h3>📋 Top de notas</h3>
     <p><strong>Curso:</strong> {{ reporte.curso }}</p>
     <p><strong>Actividad:</strong> {{ reporte.actividad }}</p>
 
-    <table style="width: 100%; border-collapse: collapse; margin-top: 20px;">
-        <tr style="background-color: #f0f0f0;">
-            <th style="border: 1px solid #ccc; padding: 10px;">Estudiante</th>
-            <th style="border: 1px solid #ccc; padding: 10px;">Nota</th>
+    <h4>🏅 Ranking de estudiantes</h4>
+    <table>
+        <tr>
+            <th>Estudiante</th>
+            <th>Nota</th>
         </tr>
         {% for item in reporte.top %}
         <tr>
-            <td style="border: 1px solid #ccc; padding: 10px;">{{ item.estudiante }}</td>
-            <td style="border: 1px solid #ccc; padding: 10px;">{{ item.valor }}</td>
+            <td>{{ item.estudiante }}</td>
+            <td>{{ item.valor }}</td>
         </tr>
         {% endfor %}
     </table>
+
+    <!-- Botón PDF -->
+    <div style="text-align: center; margin-top: 20px;">
+        <button type="button" class="btn-pdf" onclick="window.location.href='/exportar_top/?curso={{ curso_seleccionado }}&actividad={{ actividad_seleccionada }}'">
+            📄 Generar PDF
+        </button>
+    </div>
 </div>
 {% endif %}
+
+<script>
+    // Actualizar actividades cuando cambia el curso
+    document.getElementById('curso').addEventListener('change', function() {
+        var curso = this.value;
+        if (curso) {
+            fetch('/api/actividades?curso=' + curso)
+                .then(response => response.json())
+                .then(data => {
+                    var actividadSelect = document.getElementById('actividad');
+                    actividadSelect.innerHTML = '<option value="">-- Seleccionar --</option>';
+                    data.actividades.forEach(function(act) {
+                        var option = document.createElement('option');
+                        option.value = act;
+                        option.text = act;
+                        actividadSelect.appendChild(option);
+                    });
+                });
+        }
+    });
+</script>
+
 {% endblock %}

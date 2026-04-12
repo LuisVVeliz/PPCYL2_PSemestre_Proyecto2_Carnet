@@ -8,8 +8,29 @@
         .selector { margin: 20px 0; padding: 10px; background-color: #f0f0f0; border-radius: 5px; }
         select { padding: 5px; font-size: 14px; }
         .grafico { margin: 20px 0; }
-        .btn-pdf { background-color: #4CAF50; color: white; padding: 10px 20px; text-decoration: none; border-radius: 5px; display: inline-block; }
+        .btn-pdf {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 20px;
+            text-decoration: none;
+            border-radius: 5px;
+            display: inline-block;
+        }
         .btn-pdf:hover { background-color: #45a049; }
+        table {
+            border-collapse: collapse;
+            width: 100%;
+            margin-top: 20px;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+        th {
+            background-color: #4CAF50;
+            color: white;
+        }
     </style>
 </head>
 <body>
@@ -18,7 +39,7 @@
     <!-- Selector de cursos -->
     <div class="selector">
         <form method="get">
-            <label for="curso">Seleccionar Curso:</label>
+            <label for="curso">Curso:</label>
             <select name="curso" id="curso" onchange="this.form.submit()">
                 {% for c in cursos %}
                     <option value="{{ c }}" {% if c == curso %}selected{% endif %}>
@@ -26,17 +47,36 @@
                     </option>
                 {% endfor %}
             </select>
+            <button type="submit">Generar</button>
         </form>
     </div>
     
     <p><strong>Curso actual:</strong> {{ curso }}</p>
     
+    <!-- GRÁFICO DE BARRAS (Plotly) -->
     <div class="grafico">
         {{ grafico|safe }}
     </div>
     
+    <!-- Tabla de datos -->
+    <h3>📋 Datos numéricos</h3>
+    <table>
+        <tr>
+            <th>Actividad</th>
+            <th>Promedio</th>
+        </tr>
+        {% for actividad, promedio in datos_tabla %}
+        <tr>
+            <td>{{ actividad }}</td>
+            <td>{{ promedio }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+    
+    <!-- Botón PDF -->
     <div style="text-align: center; margin-top: 30px;">
         <a href="/exportar_promedios/?curso={{ curso }}" class="btn-pdf">📄 Exportar a PDF</a>
     </div>
+    
 </body>
 </html>

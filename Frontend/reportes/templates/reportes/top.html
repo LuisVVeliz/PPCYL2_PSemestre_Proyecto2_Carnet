@@ -19,38 +19,25 @@
         .btn-pdf:hover {
             background-color: #e64a19;
         }
-    </style>
-    <script>
-        function actualizarActividades() {
-            var curso = document.getElementById('curso').value;
-            var actividadSelect = document.getElementById('actividad');
-            
-            // Limpiar actividades actuales
-            actividadSelect.innerHTML = '<option>Cargando...</option>';
-            
-            // Obtener actividades del curso seleccionado
-            fetch('/api/actividades?curso=' + curso)
-                .then(response => response.json())
-                .then(data => {
-                    actividadSelect.innerHTML = '';
-                    data.actividades.forEach(function(act) {
-                        var option = document.createElement('option');
-                        option.value = act;
-                        option.text = act;
-                        actividadSelect.appendChild(option);
-                    });
-                })
-                .catch(error => {
-                    console.error('Error:', error);
-                    actividadSelect.innerHTML = '<option value="">Error al cargar</option>';
-                });
+        table {
+            border-collapse: collapse;
+            width: 100%;
+            margin-top: 20px;
         }
-    </script>
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+    </style>
 </head>
 <body>
     <h1>🏆 TOP Notas</h1>
     
-    <!-- Selectores de curso y actividad -->
+    <!-- Selectores -->
     <div class="selector">
         <form method="get" id="filtroForm">
             <label for="curso">Curso:</label>
@@ -75,11 +62,27 @@
     
     <p><strong>Curso:</strong> {{ curso }} | <strong>Actividad:</strong> {{ actividad }}</p>
     
+    <!-- GRÁFICO (debe aparecer aquí) -->
     <div class="grafico">
         {{ grafico|safe }}
     </div>
     
-    <!-- Botón para exportar a PDF -->
+    <!-- Tabla de respaldo -->
+    <h3>📋 Datos numéricos</h3>
+    <table>
+        <tr>
+            <th>Estudiante</th>
+            <th>Nota</th>
+        </tr>
+        {% for item in top_validas %}
+        <tr>
+            <td>{{ item.estudiante }}</td>
+            <td>{{ item.valor }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+    
+    <!-- Botón PDF -->
     <div style="text-align: center; margin-top: 30px;">
         <a href="/exportar_top/?curso={{ curso }}&actividad={{ actividad }}" class="btn-pdf">📄 Exportar a PDF</a>
     </div>

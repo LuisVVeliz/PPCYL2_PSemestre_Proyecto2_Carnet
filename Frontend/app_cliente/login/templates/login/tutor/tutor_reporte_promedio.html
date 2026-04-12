@@ -3,10 +3,86 @@
 {% block title %}Reporte Promedio de Notas{% endblock %}
 
 {% block content %}
-<h2>REPORTE PROMEDIO DE NOTAS</h2>
+<style>
+    .grafico-container {
+        margin: 20px 0;
+        padding: 20px;
+        border: 1px solid #ddd;
+        border-radius: 8px;
+        background-color: #f9f9f9;
+    }
+    .grafico-container h3 {
+        margin-top: 0;
+        color: #333;
+        border-bottom: 2px solid #4CAF50;
+        padding-bottom: 10px;
+    }
+    .error {
+        color: red;
+        background-color: #ffe0e0;
+        padding: 10px;
+        border-radius: 5px;
+        margin: 10px 0;
+    }
+    .reporte-container {
+        border: 1px solid #ccc;
+        padding: 20px;
+        border-radius: 8px;
+        background-color: white;
+        margin-top: 20px;
+    }
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 20px;
+    }
+    th, td {
+        border: 1px solid #ddd;
+        padding: 10px;
+        text-align: left;
+    }
+    th {
+        background-color: #4CAF50;
+        color: white;
+    }
+    tr:hover {
+        background-color: #f5f5f5;
+    }
+    .btn-pdf {
+        background-color: #4CAF50;
+        color: white;
+        padding: 10px 20px;
+        text-decoration: none;
+        border-radius: 5px;
+        display: inline-block;
+        border: none;
+        cursor: pointer;
+    }
+    .btn-pdf:hover {
+        background-color: #45a049;
+    }
+    select, button {
+        padding: 8px;
+        font-size: 14px;
+        border-radius: 4px;
+        border: 1px solid #ccc;
+    }
+    button {
+        background-color: #4CAF50;
+        color: white;
+        cursor: pointer;
+    }
+    button:hover {
+        background-color: #45a049;
+    }
+</style>
+
+<h2>📊 REPORTE PROMEDIO DE NOTAS</h2>
 
 {% if error %}
-<p class="error">{{ error }}</p>
+    <div class="error">
+        ⚠️ {{ error }}
+    </div>
 {% endif %}
 
 <form method="post">
@@ -22,30 +98,40 @@
             {% endfor %}
         </select>
 
-        <button type="submit" style="margin-left: 10px;">Generar</button>
-        <button type="button" style="margin-left: 10px;">Generar PDF</button>
+        <button type="submit" style="margin-left: 10px;">📊 Generar</button>
+        <button type="button" style="margin-left: 10px;" class="btn-pdf" onclick="window.location.href='/exportar_promedios/?curso={{ curso_seleccionado }}'">📄 Generar PDF</button>
     </div>
 </form>
 
+<!-- ========== GRÁFICO DE BARRAS ========== -->
+{% if grafico %}
+<div class="grafico-container">
+    <h3>📈 Gráfico de Promedios por Actividad</h3>
+    {{ grafico|safe }}
+</div>
+{% endif %}
+
 {% if mostrar %}
-<div style="border: 1px solid #ccc; padding: 20px;">
-    <h3>Reporte generado</h3>
+<div class="reporte-container">
+    <h3>📋 Reporte generado</h3>
     <p><strong>Curso:</strong> {{ reporte.curso }}</p>
     <p><strong>Promedio general:</strong> {{ reporte.promedio }}</p>
     <p><strong>Total de registros:</strong> {{ reporte.total_registros }}</p>
 
-    <table style="width: 100%; border-collapse: collapse; margin-top: 20px;">
-        <tr style="background-color: #f0f0f0;">
-            <th style="border: 1px solid #ccc; padding: 10px;">Actividad</th>
-            <th style="border: 1px solid #ccc; padding: 10px;">Promedio</th>
+    <h4>📊 Datos numéricos</h4>
+    <table>
+        <tr>
+            <th>Actividad</th>
+            <th>Promedio</th>
         </tr>
         {% for item in reporte.actividades %}
         <tr>
-            <td style="border: 1px solid #ccc; padding: 10px;">{{ item.actividad }}</td>
-            <td style="border: 1px solid #ccc; padding: 10px;">{{ item.promedio }}</td>
+            <td>{{ item.actividad }}</td>
+            <td>{{ item.promedio }}</td>
         </tr>
         {% endfor %}
     </table>
 </div>
 {% endif %}
+
 {% endblock %}

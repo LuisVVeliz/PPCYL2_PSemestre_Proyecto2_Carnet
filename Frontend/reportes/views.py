@@ -68,10 +68,11 @@ def grafico_promedios(request):
         lista_cursos = [curso_seleccionado]
     
     return render(request, 'reportes/promedios.html', {
-        'grafico': grafico_html,
-        'curso': datos['curso'],
-        'cursos': lista_cursos,
-    })
+    'grafico': grafico_html,
+    'curso': datos['curso'],
+    'cursos': lista_cursos,
+    'datos_tabla': list(zip(actividades, promedios_validos)),  # ← AGREGAR ESTA LÍNEA
+})
 
 # ========== GRÁFICA TOP DE NOTAS ==========
 def grafico_top(request):
@@ -139,12 +140,13 @@ def grafico_top(request):
     grafico_html = opy.plot(fig, output_type='div', include_plotlyjs='cdn')
     
     return render(request, 'reportes/top.html', {
-        'grafico': grafico_html,
-        'curso': datos['curso'],
-        'actividad': datos['actividad'],
-        'cursos': lista_cursos,
-        'actividades': lista_actividades,
-    })
+    'grafico': grafico_html,
+    'curso': datos['curso'],
+    'actividad': datos['actividad'],
+    'cursos': lista_cursos,
+    'actividades': lista_actividades,
+    'top_validas': top_validas,  # ← AGREGAR ESTA LÍNEA
+})
 
 # ========== MATRIZ DISPERSA CON GRAPHVIZ ==========
 # ========== MATRIZ DISPERSA (TABLA HTML MEJORADA) ==========

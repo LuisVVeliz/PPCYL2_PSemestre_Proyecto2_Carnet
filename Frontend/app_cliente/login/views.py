@@ -291,22 +291,57 @@ def tutor_reporte_promedio(request):
     if guard:
         return guard
 
+    import plotly.graph_objects as go
+    import plotly.offline as opy
+
     catalogo = _catalogo()
     curso = request.POST.get("curso", "").strip()
     response = {"ok": False}
+    grafico_html = None
 
-    if request.method == "POST":
+    if request.method == "POST" and curso:
         response = api_request(
             "reportes/promedio",
             method="POST",
             payload={"curso": curso},
         )
 
+        # Si hay datos, generar el gráfico
+        if response.get("ok"):
+            actividades = response.get("actividades", [])
+            if actividades:
+                # Extraer nombres y promedios
+                nombres = [act['actividad'] for act in actividades]
+                promedios = [act['promedio'] for act in actividades]
+
+                # Crear gráfico de barras
+                fig = go.Figure(data=[
+                    go.Bar(
+                        x=nombres,
+                        y=promedios,
+                        marker_color='skyblue',
+                        text=promedios,
+                        textposition='auto'
+                    )
+                ])
+
+                fig.update_layout(
+                    title=f"Promedio de Notas - Curso {curso}",
+                    xaxis_title="Actividades",
+                    yaxis_title="Promedio",
+                    yaxis_range=[0, 100],
+                    template='plotly_white',
+                    height=450
+                )
+
+                grafico_html = opy.plot(fig, output_type='div', include_plotlyjs='cdn')
+
     return render(request, "login/tutor/tutor_reporte_promedio.html", {
         "cursos": catalogo.get("cursos", []),
         "curso_seleccionado": curso,
         "mostrar": response.get("ok", False),
         "reporte": response if response.get("ok") else {},
+        "grafico": grafico_html,  # ← Nueva variable para el gráfico
         "error": response.get("message", "") if request.method == "POST" and not response.get("ok") else catalogo.get("message", ""),
     })
 
@@ -316,19 +351,54 @@ def tutor_top_notas(request):
     if guard:
         return guard
 
+    import plotly.graph_objects as go
+    import plotly.offline as opy
+
     catalogo = _catalogo()
     curso = request.POST.get("curso", "").strip()
     actividad = request.POST.get("actividad", "").strip()
     actividades_por_curso = catalogo.get("actividades_por_curso", {})
     actividades = actividades_por_curso.get(curso, [])
     response = {"ok": False}
+    grafico_html = None
 
-    if request.method == "POST":
+    if request.method == "POST" and curso and actividad:
         response = api_request(
             "reportes/top-notas",
             method="POST",
             payload={"curso": curso, "actividad": actividad},
         )
+
+        # Si hay datos, generar el gráfico
+        if response.get("ok"):
+            top = response.get("top", [])
+            if top:
+                # Extraer estudiantes y notas
+                estudiantes = [item['estudiante'] for item in top]
+                notas = [item['valor'] for item in top]
+
+                # Crear gráfico de barras horizontal
+                fig = go.Figure(data=[
+                    go.Bar(
+                        x=notas,
+                        y=estudiantes,
+                        orientation='h',
+                        marker_color='coral',
+                        text=notas,
+                        textposition='outside'
+                    )
+                ])
+
+                fig.update_layout(
+                    title=f"TOP Notas - {actividad} (Curso {curso})",
+                    xaxis_title="Nota",
+                    yaxis_title="Estudiante",
+                    xaxis_range=[0, 100],
+                    template='plotly_white',
+                    height=400
+                )
+
+                grafico_html = opy.plot(fig, output_type='div', include_plotlyjs='cdn')
 
     return render(request, "login/tutor/tutor_top_notas.html", {
         "cursos": catalogo.get("cursos", []),
@@ -337,9 +407,9 @@ def tutor_top_notas(request):
         "actividad_seleccionada": actividad,
         "mostrar": response.get("ok", False),
         "reporte": response if response.get("ok") else {},
+        "grafico": grafico_html,  # ← Nueva variable para el gráfico
         "error": response.get("message", "") if request.method == "POST" and not response.get("ok") else catalogo.get("message", ""),
     })
-
 
 def estudiante_notas(request):
     guard = _require_role(request, "estudiante")
