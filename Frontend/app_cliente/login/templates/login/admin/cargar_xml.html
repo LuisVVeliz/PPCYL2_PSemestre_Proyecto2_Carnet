@@ -17,7 +17,7 @@
             top: 0;
             left: 0;
             width: 100%;
-            height: 90px;
+            height: 110px;
             background: #142752;
             z-index: 100;
             display: flex;
@@ -59,17 +59,18 @@
             font-size: 17px;
             display: block;
             color: white;
-            padding: 20px;
+            padding: 15px 20px;
             text-decoration: none;
-            margin-top: 0%;
+            margin-top: 40px;
             text-align: center;
-            position: relative;
-            top: 40px;
+            border-radius: 8px;
+            transition: background 0.3s;
         }
-        
-        .sidebar a:hover { 
+
+.sidebar a:hover { 
             background: #1abc9c; 
-        }
+        }   
+
         
         .avatar {
             width: 180px;
@@ -99,6 +100,9 @@
             margin-left: 260px; 
             padding: 30px;
             max-width: 800px;
+            position: relative;
+            top: 50px;
+            left: 20px;
         }
         
         textarea {
@@ -191,7 +195,7 @@
 
 <div class="topbar">
     <h2>Panel de Administrador - Carga de Archivos</h2>
-    <img class="logo" src="{% static 'Imagenes/logo.jpg' %}" alt="Logo">
+    <img class="logo" src="{% static 'Imagenes/logo.png' %}" alt="Logo">
 </div>
 
 

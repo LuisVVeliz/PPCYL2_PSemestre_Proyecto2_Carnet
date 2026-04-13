@@ -59,32 +59,146 @@
   ],
   "horarios": [
     {
-      "nombre": "770 - Nombre_del_curso",
-      "lunes": "1111 - nombre del tutor",
-      "martes": "2 estudiante(s)",
-      "miercoles": "1234 - nombre del estudiante, 5678 - nombre del estudiante",
-      "jueves": "",
-      "viernes": ""
+      "nombre": "101",
+      "lunes": "08:00 - 09:00",
+      "martes": "08:00 - 09:00",
+      "miercoles": "08:00 - 09:00",
+      "jueves": "08:00 - 09:00",
+      "viernes": "08:00 - 09:00"
     },
     {
-      "nombre": "771 - Nombre_del_curso",
-      "lunes": "1111 - nombre del tutor",
-      "martes": "1 estudiante(s)",
-      "miercoles": "1122 - nombre del estudiante",
-      "jueves": "",
-      "viernes": ""
-    },
-    {
-      "nombre": "772 - Nombre_del_curso",
-      "lunes": "2222 - nombre del tutor",
-      "martes": "0 estudiante(s)",
-      "miercoles": "Sin estudiantes",
-      "jueves": "",
-      "viernes": ""
+      "nombre": "102",
+      "lunes": "09:00 - 10:00",
+      "martes": "09:00 - 10:00",
+      "miercoles": "09:00 - 10:00",
+      "jueves": "09:00 - 10:00",
+      "viernes": "09:00 - 10:00"
     }
   ],
-  "notas": [],
-  "notas_indexadas": {},
-  "last_horario_file": "",
-  "last_notas_file": ""
+  "notas": [
+    {
+      "tutor": "1111",
+      "curso": "770",
+      "curso_nombre": "Programaci\u00f3n",
+      "actividad": "Tarea1",
+      "valor": 90,
+      "valor_numerico": 90.0,
+      "estudiante": "1234"
+    },
+    {
+      "tutor": "1111",
+      "curso": "770",
+      "curso_nombre": "Programaci\u00f3n",
+      "actividad": "Tarea1",
+      "valor": 80,
+      "valor_numerico": 80.0,
+      "estudiante": "5678"
+    },
+    {
+      "tutor": "1111",
+      "curso": "770",
+      "curso_nombre": "Programaci\u00f3n",
+      "actividad": "Parcial1",
+      "valor": 85,
+      "valor_numerico": 85.0,
+      "estudiante": "1234"
+    },
+    {
+      "tutor": "1111",
+      "curso": "770",
+      "curso_nombre": "Programaci\u00f3n",
+      "actividad": "Parcial1",
+      "valor": 75,
+      "valor_numerico": 75.0,
+      "estudiante": "5678"
+    },
+    {
+      "tutor": "1111",
+      "curso": "771",
+      "curso_nombre": "Base de Datos",
+      "actividad": "Tarea1",
+      "valor": 88,
+      "valor_numerico": 88.0,
+      "estudiante": "1122"
+    },
+    {
+      "tutor": "1111",
+      "curso": "771",
+      "curso_nombre": "Base de Datos",
+      "actividad": "Parcial1",
+      "valor": 92,
+      "valor_numerico": 92.0,
+      "estudiante": "1122"
+    }
+  ],
+  "notas_indexadas": {
+    "1234": {
+      "770": [
+        {
+          "tutor": "1111",
+          "curso": "770",
+          "curso_nombre": "Programaci\u00f3n",
+          "actividad": "Tarea1",
+          "valor": 90,
+          "valor_numerico": 90.0,
+          "estudiante": "1234"
+        },
+        {
+          "tutor": "1111",
+          "curso": "770",
+          "curso_nombre": "Programaci\u00f3n",
+          "actividad": "Parcial1",
+          "valor": 85,
+          "valor_numerico": 85.0,
+          "estudiante": "1234"
+        }
+      ]
+    },
+    "5678": {
+      "770": [
+        {
+          "tutor": "1111",
+          "curso": "770",
+          "curso_nombre": "Programaci\u00f3n",
+          "actividad": "Tarea1",
+          "valor": 80,
+          "valor_numerico": 80.0,
+          "estudiante": "5678"
+        },
+        {
+          "tutor": "1111",
+          "curso": "770",
+          "curso_nombre": "Programaci\u00f3n",
+          "actividad": "Parcial1",
+          "valor": 75,
+          "valor_numerico": 75.0,
+          "estudiante": "5678"
+        }
+      ]
+    },
+    "1122": {
+      "771": [
+        {
+          "tutor": "1111",
+          "curso": "771",
+          "curso_nombre": "Base de Datos",
+          "actividad": "Tarea1",
+          "valor": 88,
+          "valor_numerico": 88.0,
+          "estudiante": "1122"
+        },
+        {
+          "tutor": "1111",
+          "curso": "771",
+          "curso_nombre": "Base de Datos",
+          "actividad": "Parcial1",
+          "valor": 92,
+          "valor_numerico": 92.0,
+          "estudiante": "1122"
+        }
+      ]
+    }
+  },
+  "last_horario_file": "HORARIOS.txt",
+  "last_notas_file": "NOTAS FINALES.xml"
 }

@@ -10,16 +10,13 @@
             font-family: Arial, Helvetica, sans-serif;
             background-color: #f2f2f2;
         }
-        .container {
-            display: flex;
-            min-height: 100vh;
-        }
+        
         .topbar {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
-            height: 90px;
+            height: 110px;
             background: #142752;
             z-index: 100;
             display: flex;
@@ -35,51 +32,52 @@
             width: 100%;
         }
 
-       .topbar .logo {
+        .topbar .logo {
             position: absolute;
-            top: 1px;
+            top: 15px;
             right: 40px;
-            width: 40%;        
+            width: 140px;
+            max-width: 140px;
             height: auto;
-            max-width: 160px;  
             object-fit: contain;
         }       
         
         .sidebar {
-            width: 220px;
+            width: 250px;
             background: #142752;
             color: white;
             height: calc(100vh - 90px);
             padding: 20px;
-            float: left;
-            text-align: center;
-            position: relative;
+            position: fixed;
             top: 90px;
-            
+            left: 0;
+            overflow-y: auto;
+            text-align: center;
         }
         
         .sidebar a {
-            font-size: 17px;
-            display: block;
-            color: white;
-            padding: 20px;
-            text-decoration: none;
-            margin-top: 0%;
-            text-align: center;
-            position: relative;
-            top: 40px;
-        }
-        
-        .sidebar a:hover { 
-            background: #1abc9c; 
-        }
+    font-size: 17px;
+    display: block;
+    color: white;
+    padding: 15px 20px;
+    text-decoration: none;
+    margin-top: 40px;
+    text-align: center;
+    border-radius: 8px;
+    transition: background 0.3s;
+}
+
+.sidebar a:hover { 
+    background: #1abc9c; 
+}
+
         
         .avatar {
-            width: 180px;
-            height: 180px;
+            width: 150px;
+            height: 150px;
             background: white;
             border-radius: 50%;
-            margin: 20px auto 10px auto;
+            margin: 20px auto;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -87,102 +85,135 @@
         }
         
         .avatar img {
-            width: 180px;
-            height: 180px;
+            width: 100%;
+            height: 100%;
             object-fit: cover;
         }
         
         .sidebar h3 {
-            margin: 0;
-            margin-top: 15px;
+            margin: 10px 0;
             text-align: center;
+            font-size: 16px;
+            word-wrap: break-word;
         }
         
         .content {
-            flex: 1;
-            padding: 120px 40px 40px 280px;
+            margin-left: 290px;
+            padding: 120px 40px 40px 40px;
+            min-height: 100vh;
             position: relative;
+            top: 50px;
         }
+        
         .info-card {
             margin: 0 auto;
             padding: 40px; 
             text-align: center; 
             background: white; 
-            border-radius: 10px; 
-            box-shadow: 0 0 10px rgba(0,0,0,0.1); 
-            max-width: 800px;
-            position: relative;
+            border-radius: 16px; 
+            box-shadow: 0 14px 30px rgba(0,0,0,0.08);
+            max-width: 900px;
         }
+        
+        .info-card h2 {
+            color: #142752;
+            margin-top: 0;
+        }
+        
         table {
             width: 100%;
             border-collapse: collapse;
             margin-top: 20px;
             background: white;
         }
+        
         th, td {
-            border: 1px solid #ccc;
-            padding: 10px;
+            border: 1px solid #ddd;
+            padding: 12px;
             text-align: center;
         }
+        
         th {
             background-color: #142752;
             color: white;
+        }
+        
+        tr:hover {
+            background-color: #f5f5f5;
+        }
+        
+        @media (max-width: 768px) {
+            .sidebar {
+                width: 100%;
+                height: auto;
+                position: relative;
+                top: 90px;
+            }
+            .content {
+                margin-left: 0;
+                padding: 20px;
+            }
+            .info-card {
+                padding: 20px;
+            }
         }
     </style>
 </head>
 <body>
 
-     <div class="topbar">
+<div class="topbar">
     <h2>Panel de Administrador - Información</h2>
-    <img class="logo" src="{% static 'Imagenes/logo.jpg' %}" alt="Logo">
+    <img class="logo" src="{% static 'Imagenes/logo.png' %}" alt="Logo">
 </div>
-
 
 <div class="sidebar">
     <div class="avatar">
         <img src="https://icones.pro/wp-content/uploads/2021/02/icone-utilisateur.png" alt="Usuario">
     </div>
     <h3>{{ request.session.user }}</h3>
-    <a href="{% url 'admin_panel' %}"> Volver</a>
-</div>
+    <a href="/admin-panel/">Volver al Panel</a>
+   </div>
 
 <div class="content">
     <div class="info-card">
-        <h2>INFORMACION</h2>
+        <h2>INFORMACIÓN DEL PROYECTO</h2>
 
         <p><strong>Nombre:</strong> {{ nombre_completo }}</p>
         <p><strong>Usuario:</strong> {{ carnet }}</p>
-        <p><strong>Repertorio:</strong> <a href="https://github.com/LuisVVeliz/PPCYL2_PSemestre_Proyecto2_Carnet.git" target="_blank">Repositorio GitHub</a></p>
+        <p><strong>Repositorio:</strong> <a href="https://github.com/LuisVVeliz/PPCYL2_PSemestre_Proyecto2_Carnet.git" target="_blank" style="color: #142752;">GitHub del Proyecto</a></p>
 
         <h2>INTEGRANTES</h2>
 
         <table>
-            <tr>
-                <th>Nombre</th>
-                <th>Apellidos</th>
-                <th>Carnet</th>
-            </tr>
-
-            <tr>
-                <td>Rudy Rolando</td>
-                <td>Mejia Marroquín</td>
-                <td>1492-25-1685</td>
-            </tr>
-            <tr>
-                <td>David Rolando</td>
-                <td>Velásquez López</td>
-                <td>1492-25-197</td>
-            </tr>
-            <tr>
-                <td>Luis Rolando</td>
-                <td>Veliz Vicente</td>
-                <td>1492-25-486</td>
-            </tr>
-            <tr>
-                <td>Massiel Ivanova</td>
-                <td>Castellanos Pérez</td>
-                <td>1492-25-203</td>
-            </tr>
+            <thead>
+                <tr>
+                    <th>Nombre</th>
+                    <th>Apellidos</th>
+                    <th>Carnet</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Rudy Rolando</td>
+                    <td>Mejia Marroquín</td>
+                    <td>1492-25-1685</td>
+                </tr>
+                <tr>
+                    <td>David Rolando</td>
+                    <td>Velásquez López</td>
+                    <td>1492-25-197</td>
+                </tr>
+                <tr>
+                    <td>Luis Rolando</td>
+                    <td>Veliz Vicente</td>
+                    <td>1492-25-486</td>
+                </tr>
+                <tr>
+                    <td>Massiel Ivanova</td>
+                    <td>Castellanos Pérez</td>
+                    <td>1492-25-203</td>
+                </tr>
+            </tbody>
         </table>
     </div>
 </div>

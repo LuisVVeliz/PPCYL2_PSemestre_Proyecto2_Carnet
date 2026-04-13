@@ -4,147 +4,313 @@
 
 {% block content %}
 <style>
-    .grafico-container {
-        margin: 20px 0;
+    /* Contenedor principal */
+    .top-container {
+        max-width: 1400px;
+        margin: 0 auto;
         padding: 20px;
+        position: relative;
+        top: -30px;
+    }
+    
+    h2 {
+        color: #142752;
+        font-size: 1.8rem;
+        margin-bottom: 25px;
+        font-weight: 600;
+        text-align: center;
+    }
+    
+    /* Formulario de selección */
+    .form-selector {
+        background: white;
+        padding: 25px 30px;
+        margin-bottom: 30px;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
         border: 1px solid #ddd;
-        border-radius: 8px;
-        background-color: #f9f9f9;
+        display: flex;
+        align-items: center;
+        gap: 15px;
+        flex-wrap: wrap;
     }
-    .grafico-container h3 {
-        margin-top: 0;
-        color: #333;
-        border-bottom: 2px solid #FF5722;
-        padding-bottom: 10px;
+    
+    .form-selector label {
+        font-weight: 600;
+        color: #142752;
+        font-size: 1rem;
     }
-    .error {
-        color: red;
-        background-color: #ffe0e0;
-        padding: 10px;
-        border-radius: 5px;
-        margin: 10px 0;
-    }
-    .reporte-container {
-        border: 1px solid #ccc;
-        padding: 20px;
-        border-radius: 8px;
-        background-color: white;
-        margin-top: 20px;
-    }
-    table {
-        width: 100%;
-        border-collapse: collapse;
-        margin-top: 20px;
-    }
-    th, td {
+    
+    .form-selector select {
+        padding: 10px 15px;
+        font-size: 0.95rem;
         border: 1px solid #ddd;
-        padding: 10px;
-        text-align: left;
+        background: white;
+        cursor: pointer;
+        min-width: 180px;
+        border-radius: 50px;
     }
-    th {
-        background-color: #FF5722;
+    
+    .form-selector select:focus {
+        outline: none;
+        border-color: #1abc9c;
+    }
+    
+    /* Botón redondeado */
+    .form-selector button {
+        background: #142752;
         color: white;
+        border: none;
+        padding: 10px 28px;
+        font-size: 0.95rem;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        border-radius: 50px;
     }
-    tr:hover {
-        background-color: #f5f5f5;
+    
+    .form-selector button:hover {
+        background: #1abc9c;
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(0,0,0,0.15);
     }
+    
+    .form-selector button:active {
+        transform: translateY(0);
+    }
+    
+    /* Botón PDF redondeado */
     .btn-pdf {
-        background-color: #FF5722;
+        background: #e74c3c;
         color: white;
-        padding: 10px 20px;
+        padding: 10px 28px;
         text-decoration: none;
-        border-radius: 5px;
+        font-size: 0.95rem;
+        font-weight: 600;
+        transition: all 0.3s ease;
         display: inline-block;
         border: none;
         cursor: pointer;
+        border-radius: 50px;
     }
+    
     .btn-pdf:hover {
-        background-color: #e64a19;
+        background: #c0392b;
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(0,0,0,0.15);
     }
-    select, button {
-        padding: 8px;
-        font-size: 14px;
-        border-radius: 4px;
-        border: 1px solid #ccc;
+    
+    .btn-pdf:active {
+        transform: translateY(0);
     }
-    button {
-        background-color: #FF5722;
+    
+    /* Gráfico */
+    .grafico-container {
+        background: white;
+        padding: 25px;
+        margin-bottom: 30px;
+        border: 1px solid #ddd;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+    
+    .grafico-container h3 {
+        color: #142752;
+        font-size: 1.3rem;
+        margin-bottom: 20px;
+        padding-bottom: 10px;
+        border-bottom: 2px solid #1abc9c;
+    }
+    
+    /* Reporte */
+    .reporte-container {
+        background: white;
+        padding: 25px;
+        border: 1px solid #ddd;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+    
+    .reporte-container h3 {
+        color: #142752;
+        font-size: 1.3rem;
+        margin-bottom: 20px;
+        padding-bottom: 10px;
+        border-bottom: 2px solid #1abc9c;
+    }
+    
+    .reporte-container p {
+        margin: 10px 0;
+        color: #555;
+    }
+    
+    /* Tabla */
+    .table-wrapper {
+        overflow-x: auto;
+        margin-top: 20px;
+    }
+    
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        min-width: 300px;
+    }
+    
+    th {
+        background: #142752;
         color: white;
-        cursor: pointer;
+        padding: 12px 15px;
+        text-align: center;
+        font-weight: 600;
+        font-size: 0.95rem;
+        border: 1px solid #1a3a6e;
     }
-    button:hover {
-        background-color: #e64a19;
+    
+    td {
+        padding: 10px 15px;
+        text-align: center;
+        border: 1px solid #ddd;
+        color: #333;
+    }
+    
+    tr:hover {
+        background-color: #f8f9fa;
+    }
+    
+    /* Mensaje de error */
+    .error {
+        background-color: #f8d7da;
+        color: #dc3545;
+        border: 1px solid #f5c6cb;
+        padding: 12px 20px;
+        margin-bottom: 20px;
+        font-weight: 500;
+        border-radius: 8px;
+    }
+    
+    /* Botón PDF centrado */
+    .pdf-button-wrapper {
+        text-align: center;
+        margin-top: 25px;
+        padding-top: 20px;
+        border-top: 1px solid #e0e0e0;
+    }
+    
+    /* Responsive */
+    @media (max-width: 768px) {
+        .top-container {
+            padding: 15px;
+        }
+        
+        h2 {
+            font-size: 1.4rem;
+        }
+        
+        .form-selector {
+            flex-direction: column;
+            align-items: stretch;
+            padding: 20px;
+        }
+        
+        .form-selector select {
+            width: 100%;
+            border-radius: 50px;
+        }
+        
+        .form-selector button {
+            width: 100%;
+            text-align: center;
+            border-radius: 50px;
+        }
+        
+        .btn-pdf {
+            width: 100%;
+            text-align: center;
+            border-radius: 50px;
+        }
+        
+        .grafico-container {
+            padding: 15px;
+            overflow-x: auto;
+        }
+        
+        .error {
+            border-radius: 8px;
+        }
     }
 </style>
 
-<h2>🏆 TOP NOTAS POR ACTIVIDAD</h2>
+<div class="top-container">
+    <h2>Top de Notas</h2>
 
-{% if error %}
+    {% if error %}
     <div class="error">
         ⚠️ {{ error }}
     </div>
-{% endif %}
+    {% endif %}
 
-<form method="post">
-    {% csrf_token %}
-
-    <div style="margin-bottom: 20px;">
+    <form method="post" class="form-selector">
+        {% csrf_token %}
         <label for="curso"><strong>Curso:</strong></label>
-        <select name="curso" id="curso" style="margin-left: 10px;" onchange="this.form.submit()">
+        <select name="curso" id="curso">
             <option value="">-- Seleccionar --</option>
             {% for curso in cursos %}
             <option value="{{ curso }}" {% if curso == curso_seleccionado %}selected{% endif %}>{{ curso }}</option>
             {% endfor %}
         </select>
 
-        <label for="actividad" style="margin-left: 20px;"><strong>Actividad:</strong></label>
-        <select name="actividad" id="actividad" style="margin-left: 10px;">
+        <label for="actividad"><strong>Actividad:</strong></label>
+        <select name="actividad" id="actividad">
             <option value="">-- Seleccionar --</option>
             {% for act in actividades %}
             <option value="{{ act }}" {% if act == actividad_seleccionada %}selected{% endif %}>{{ act }}</option>
             {% endfor %}
         </select>
 
-        <button type="submit" style="margin-left: 10px;">🏆 Generar</button>
+        <button type="submit">Generar</button>
+    </form>
+
+    <!-- GRÁFICO DE BARRAS HORIZONTAL -->
+    {% if grafico %}
+    <div class="grafico-container">
+        <h3>Gráfico TOP Notas</h3>
+        {{ grafico|safe }}
     </div>
-</form>
+    {% endif %}
 
-<!-- ========== GRÁFICO DE BARRAS HORIZONTAL ========== -->
-{% if grafico %}
-<div class="grafico-container">
-    <h3>📊 Gráfico TOP Notas</h3>
-    {{ grafico|safe }}
-</div>
-{% endif %}
+    {% if mostrar %}
+    <div class="reporte-container">
+        <h3>Top de notas</h3>
+        <p><strong>Curso:</strong> {{ reporte.curso }}</p>
+        <p><strong>Actividad:</strong> {{ reporte.actividad }}</p>
 
-{% if mostrar %}
-<div class="reporte-container">
-    <h3>📋 Top de notas</h3>
-    <p><strong>Curso:</strong> {{ reporte.curso }}</p>
-    <p><strong>Actividad:</strong> {{ reporte.actividad }}</p>
+        <h4>Ranking de estudiantes</h4>
+        <div class="table-wrapper">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Estudiante</th>
+                        <th>Nota</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for item in reporte.top %}
+                    <tr>
+                        <td>{{ item.estudiante }}</td>
+                        <td>{{ item.valor }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
 
-    <h4>🏅 Ranking de estudiantes</h4>
-    <table>
-        <tr>
-            <th>Estudiante</th>
-            <th>Nota</th>
-        </tr>
-        {% for item in reporte.top %}
-        <tr>
-            <td>{{ item.estudiante }}</td>
-            <td>{{ item.valor }}</td>
-        </tr>
-        {% endfor %}
-    </table>
-
-    <!-- Botón PDF -->
-    <div style="text-align: center; margin-top: 20px;">
-        <button type="button" class="btn-pdf" onclick="window.location.href='/exportar_top/?curso={{ curso_seleccionado }}&actividad={{ actividad_seleccionada }}'">
-            📄 Generar PDF
-        </button>
+        <!-- Botón PDF -->
+        <div class="pdf-button-wrapper">
+            <a href="{% url 'exportar_top' %}?curso={{ curso_seleccionado|urlencode }}&actividad={{ actividad_seleccionada|urlencode }}" class="btn-pdf">
+                 Generar PDF
+            </a>
+        </div>
     </div>
+    {% endif %}
 </div>
-{% endif %}
 
 <script>
     // Actualizar actividades cuando cambia el curso

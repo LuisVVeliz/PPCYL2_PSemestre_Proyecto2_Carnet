@@ -84,7 +84,7 @@
     
     <!-- Botón PDF -->
     <div style="text-align: center; margin-top: 30px;">
-        <a href="/exportar_top/?curso={{ curso }}&actividad={{ actividad }}" class="btn-pdf">📄 Exportar a PDF</a>
+        <a href="{% url 'exportar_top' %}?curso={{ curso|urlencode }}&actividad={{ actividad|urlencode }}" class="btn-pdf">📄 Exportar a PDF</a>
     </div>
     
 </body>

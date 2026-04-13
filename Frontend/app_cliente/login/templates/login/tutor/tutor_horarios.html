@@ -3,54 +3,255 @@
 {% block title %}Horarios{% endblock %}
 
 {% block content %}
-<h2>HORARIOS</h2>
+<style>
+    /* Contenedor principal */
+    .horarios-container {
+        max-width: 1400px;
+        margin: 0 auto;
+        padding: 20px;
+    }
+    
+    h2 {
+        color: #142752;
+        font-size: 1.8rem;
+        margin-bottom: 25px;
+        text-align: center;
+        font-weight: 600;
+    }
+    
+    /* Formulario de carga */
+    .upload-form {
+        background: white;
+        border-radius: 16px;
+        padding: 25px 30px;
+        margin-bottom: 30px;
+        box-shadow: 0 12px 26px rgba(0,0,0,0.08);
+        display: flex;
+        align-items: center;
+        gap: 15px;
+        flex-wrap: wrap;
+    }
+    
+    .upload-form button {
+        background: #142752;
+        color: white;
+        border: none;
+        padding: 12px 24px;
+        border-radius: 8px;
+        font-size: 1rem;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+    
+    .upload-form button:hover {
+        background: #1abc9c;
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    }
+    
+    .upload-form input[type="file"] {
+        padding: 8px 12px;
+        border: 2px solid #ddd;
+        border-radius: 8px;
+        font-size: 0.9rem;
+        cursor: pointer;
+        transition: border-color 0.3s ease;
+    }
+    
+   
+    .upload-form input[readonly] {
+        background: #f5f5f5;
+        border: 2px solid #e0e0e0;
+        border-radius: 8px;
+        padding: 10px 15px;
+        font-size: 0.9rem;
+        color: #666;
+        width: 260px;
+    }
+    
+    /* Mensajes */
+    .message {
+        background-color: #d4edda;
+        color: #155724;
+        border: 1px solid #c3e6cb;
+        padding: 12px 20px;
+        border-radius: 8px;
+        margin-bottom: 20px;
+        font-weight: 500;
+    }
+    
+    .error {
+        background-color: #f8d7da;
+        color: #dc3545;
+        border: 1px solid #f5c6cb;
+        padding: 12px 20px;
+        border-radius: 8px;
+        margin-bottom: 20px;
+        font-weight: 500;
+    }
+    
+    .table-wrapper {
+        background: white;
+        overflow-x: auto;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        border: 1px solid #ddd;
+    }
+    
+    .horarios-table {
+        width: 100%;
+        border-collapse: collapse;
+        min-width: 800px;
+    }
+    
+    .horarios-table th {
+        background: #142752;
+        color: white;
+        padding: 15px 12px;
+        text-align: center;
+        font-weight: 600;
+        font-size: 0.95rem;
+        border: 1px solid #1a3a6e;
+    }
+    
+    .horarios-table td {
+        padding: 12px 12px;
+        text-align: center;
+        border: 1px solid #ddd;
+        color: #333;
+        vertical-align: middle;
+    }
+    
+    .horarios-table td {
+        padding: 12px 12px;
+        text-align: center;
+        border: 1px solid #e0e0e0;
+        color: #333;
+        vertical-align: middle;
+    }
+    
+    /* Columna del nombre del curso */
+    .horarios-table td:first-child {
+        background-color: #f8f9fa;
+        font-weight: 600;
+        color: #142752;
+        width: 180px;
+    }
+    
+    /* Columnas de días */
+    .horarios-table td:not(:first-child) {
+        min-width: 100px;
+    }
+    
+    /* Celdas vacías */
+    .horarios-table td:empty::before {
+        content: "—";
+        color: #999;
+    }
+    
+    /* Efecto hover en filas */
+    .horarios-table tbody tr:hover {
+        background-color: #f8f9fa;
+        transition: background-color 0.2s ease;
+    }
+    
+    /* Mensaje de tabla vacía */
+    .empty-message {
+        text-align: center;
+        padding: 40px;
+        color: #6c757d;
+        font-size: 1rem;
+        background: white;
+        border-radius: 16px;
+    }
+    
+    /* Responsive */
+    @media (max-width: 768px) {
+        .horarios-container {
+            padding: 15px;
+        }
+        
+        h2 {
+            font-size: 1.4rem;
+        }
+        
+        .upload-form {
+            flex-direction: column;
+            align-items: stretch;
+            padding: 20px;
+        }
+        
+        .upload-form button {
+            width: 100%;
+        }
+        
+        .upload-form input[readonly] {
+            width: 100%;
+        }
+        
+        .horarios-table th,
+        .horarios-table td {
+            padding: 8px 10px;
+            font-size: 0.85rem;
+        }
+        
+        .horarios-table td:first-child {
+            width: 120px;
+        }
+    }
+</style>
 
-{% if mensaje %}
-<p class="message">{{ mensaje }}</p>
-{% endif %}
-
-{% if error %}
-<p class="error">{{ error }}</p>
-{% endif %}
-
-<form method="post" enctype="multipart/form-data">
-    {% csrf_token %}
-
-    <div style="margin-bottom: 20px;">
-        <button type="submit">Cargar Archivo XML/TXT de Horarios</button>
-        <input type="file" name="archivo_xml" accept=".xml,.txt" required style="margin-left: 10px;">
-        <input type="text" value="{{ archivo }}" placeholder="Ningun archivo seleccionado"
-               readonly style="margin-left: 10px; width: 260px;">
-    </div>
-</form>
-
-<table style="width: 100%; border-collapse: collapse;">
-    <tr style="background-color: #e0e0e0;">
-        <th style="border: 1px solid #ccc; padding: 10px;"></th>
-        <th style="border: 1px solid #ccc; padding: 10px;">LUNES</th>
-        <th style="border: 1px solid #ccc; padding: 10px;">MARTES</th>
-        <th style="border: 1px solid #ccc; padding: 10px;">MIERCOLES</th>
-        <th style="border: 1px solid #ccc; padding: 10px;">JUEVES</th>
-        <th style="border: 1px solid #ccc; padding: 10px;">VIERNES</th>
-    </tr>
-
-    {% if horarios %}
-        {% for curso in horarios %}
-        <tr>
-            <td style="border: 1px solid #ccc; padding: 10px;"><strong>{{ curso.nombre }}</strong></td>
-            <td style="border: 1px solid #ccc; padding: 10px;">{{ curso.lunes }}</td>
-            <td style="border: 1px solid #ccc; padding: 10px;">{{ curso.martes }}</td>
-            <td style="border: 1px solid #ccc; padding: 10px;">{{ curso.miercoles }}</td>
-            <td style="border: 1px solid #ccc; padding: 10px;">{{ curso.jueves }}</td>
-            <td style="border: 1px solid #ccc; padding: 10px;">{{ curso.viernes }}</td>
-        </tr>
-        {% endfor %}
-    {% else %}
-        <tr>
-            <td colspan="6" style="border: 1px solid #ccc; padding: 15px; text-align: center;">
-                No hay horarios cargados
-            </td>
-        </tr>
+<div class="horarios-container">
+<h2>Horarios</h2>
+    {% if mensaje %}
+    <div class="message">{{ mensaje }}</div>
     {% endif %}
-</table>
+
+    {% if error %}
+    <div class="error">{{ error }}</div>
+    {% endif %}
+
+    <form method="post" enctype="multipart/form-data" class="upload-form">
+        {% csrf_token %}
+        <button type="submit"> Cargar Archivo</button>
+        <input type="file" name="archivo_xml" accept=".xml,.txt" required>
+        <input type="text" value="{{ archivo|default:'Ningún archivo seleccionado' }}" placeholder="Ningún archivo seleccionado" readonly>
+    </form>
+
+    <div class="table-wrapper">
+        <table class="horarios-table">
+            <thead>
+                <tr>
+                    <th>CURSO</th>
+                    <th>LUNES</th>
+                    <th>MARTES</th>
+                    <th>MIÉRCOLES</th>
+                    <th>JUEVES</th>
+                    <th>VIERNES</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% if horarios %}
+                    {% for curso in horarios %}
+                    <tr>
+                        <td><strong>{{ curso.nombre }}</strong></td>
+                        <td>{{ curso.lunes|default:"—" }}</td>
+                        <td>{{ curso.martes|default:"—" }}</td>
+                        <td>{{ curso.miercoles|default:"—" }}</td>
+                        <td>{{ curso.jueves|default:"—" }}</td>
+                        <td>{{ curso.viernes|default:"—" }}</td>
+                    </tr>
+                    {% endfor %}
+                {% else %}
+                    <tr>
+                        <td colspan="6" class="empty-message">
+                            No hay horarios cargados
+                        </td>
+                    </tr>
+                {% endif %}
+            </tbody>
+        </table>
+    </div>
+</div>
 {% endblock %}

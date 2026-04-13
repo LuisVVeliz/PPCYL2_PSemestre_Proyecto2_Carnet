@@ -4,134 +4,328 @@
 
 {% block content %}
 <style>
-    .grafico-container {
-        margin: 20px 0;
-        padding: 20px;
-        border: 1px solid #ddd;
-        border-radius: 8px;
-        background-color: #f9f9f9;
-    }
-    .grafico-container h3 {
-        margin-top: 0;
-        color: #333;
-        border-bottom: 2px solid #4CAF50;
-        padding-bottom: 10px;
-    }
-    .error {
-        color: red;
-        background-color: #ffe0e0;
-        padding: 10px;
-        border-radius: 5px;
-        margin: 10px 0;
-    }
+    /* Contenedor principal */
     .reporte-container {
-        border: 1px solid #ccc;
+        max-width: 1400px;
+        margin: 0 auto;
         padding: 20px;
-        border-radius: 8px;
-        background-color: white;
-        margin-top: 20px;
     }
-    table {
-        width: 100%;
-        border-collapse: collapse;
-        margin-top: 20px;
+    
+    h2 {
+        color: #142752;
+        font-size: 1.8rem;
+        margin-bottom: 25px;
+        font-weight: 600;
+        text-align: center;
     }
-    th, td {
+    
+    /* Formulario de selección */
+    .form-selector {
+        background: white;
+        padding: 25px 30px;
+        margin-bottom: 30px;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
         border: 1px solid #ddd;
-        padding: 10px;
-        text-align: left;
+        display: flex;
+        align-items: center;
+        gap: 15px;
+        flex-wrap: wrap;
     }
-    th {
-        background-color: #4CAF50;
+    
+    .form-selector label {
+        font-weight: 600;
+        color: #142752;
+        font-size: 1rem;
+    }
+    
+    .form-selector select {
+        padding: 10px 15px;
+        font-size: 0.95rem;
+        border: 1px solid #ddd;
+        background: white;
+        cursor: pointer;
+        min-width: 200px;
+        border-radius: 50px;
+    }
+    
+    .form-selector select:focus {
+        outline: none;
+        border-color: #1abc9c;
+    }
+    
+    /* Botón redondeado */
+    .btn-generar {
+        background: #142752;
         color: white;
+        border: none;
+        padding: 10px 28px;
+        font-size: 0.95rem;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        border-radius: 50px;
     }
-    tr:hover {
-        background-color: #f5f5f5;
+    
+    .btn-generar:hover {
+        background: #1abc9c;
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(0,0,0,0.15);
     }
+    
+    .btn-generar:active {
+        transform: translateY(0);
+    }
+    
+    /* Botón PDF redondeado */
     .btn-pdf {
-        background-color: #4CAF50;
+        background: #142752;
         color: white;
-        padding: 10px 20px;
+        padding: 10px 28px;
         text-decoration: none;
-        border-radius: 5px;
+        font-size: 0.95rem;
+        font-weight: 600;
+        transition: all 0.3s ease;
         display: inline-block;
         border: none;
         cursor: pointer;
+        border-radius: 50px;
     }
+    
     .btn-pdf:hover {
-        background-color: #45a049;
+        background: #1abc9c;
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(0,0,0,0.15);
     }
-    select, button {
-        padding: 8px;
-        font-size: 14px;
-        border-radius: 4px;
-        border: 1px solid #ccc;
+    
+    .btn-pdf:active {
+        transform: translateY(0);
     }
-    button {
-        background-color: #4CAF50;
+    
+    /* Mensaje de error */
+    .error {
+        background-color: #f8d7da;
+        color: #dc3545;
+        border: 1px solid #f5c6cb;
+        padding: 12px 20px;
+        margin-bottom: 20px;
+        font-weight: 500;
+        border-radius: 8px;
+    }
+    
+    /* Gráfico */
+    .grafico-container {
+        background: white;
+        padding: 25px;
+        margin-bottom: 30px;
+        border: 1px solid #ddd;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+    
+    .grafico-container h3 {
+        color: #142752;
+        font-size: 1.3rem;
+        margin-bottom: 20px;
+        padding-bottom: 10px;
+        border-bottom: 2px solid #1abc9c;
+    }
+    
+    /* Reporte */
+    .reporte-card {
+        background: white;
+        padding: 25px;
+        border: 1px solid #ddd;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+    
+    .reporte-card h3 {
+        color: #142752;
+        font-size: 1.3rem;
+        margin-bottom: 20px;
+        padding-bottom: 10px;
+        border-bottom: 2px solid #1abc9c;
+    }
+    
+    .reporte-stats {
+        display: flex;
+        gap: 30px;
+        margin-bottom: 25px;
+        flex-wrap: wrap;
+    }
+    
+    .stat-item {
+        background: #f8f9fa;
+        padding: 15px 25px;
+        border: 1px solid #e0e0e0;
+        min-width: 180px;
+    }
+    
+    .stat-label {
+        font-size: 0.85rem;
+        color: #666;
+        margin-bottom: 5px;
+    }
+    
+    .stat-value {
+        font-size: 1.8rem;
+        font-weight: 700;
+        color: #142752;
+    }
+    
+    /* Tabla de actividades */
+    .table-wrapper {
+        overflow-x: auto;
+        margin-top: 20px;
+    }
+    
+    .actividades-table {
+        width: 100%;
+        border-collapse: collapse;
+        min-width: 300px;
+    }
+    
+    .actividades-table th {
+        background: #142752;
         color: white;
-        cursor: pointer;
+        padding: 12px 15px;
+        text-align: center;
+        font-weight: 600;
+        font-size: 0.95rem;
+        border: 1px solid #1a3a6e;
     }
-    button:hover {
-        background-color: #45a049;
+    
+    .actividades-table td {
+        padding: 10px 15px;
+        text-align: center;
+        border: 1px solid #ddd;
+        color: #333;
+    }
+    
+    .actividades-table tbody tr:hover {
+        background-color: #f8f9fa;
+    }
+    
+    .actividades-table td:first-child {
+        font-weight: 500;
+        text-align: left;
+    }
+    
+    /* Responsive */
+    @media (max-width: 768px) {
+        .reporte-container {
+            padding: 15px;
+        }
+        
+        h2 {
+            font-size: 1.4rem;
+        }
+        
+        .form-selector {
+            flex-direction: column;
+            align-items: stretch;
+            padding: 20px;
+        }
+        
+        .form-selector select {
+            width: 100%;
+            border-radius: 50px;
+        }
+        
+        .btn-generar, .btn-pdf {
+            width: 100%;
+            text-align: center;
+            border-radius: 50px;
+        }
+        
+        .stat-item {
+            flex: 1;
+            min-width: 150px;
+            text-align: center;
+        }
+        
+        .stat-value {
+            font-size: 1.4rem;
+        }
+        
+        .grafico-container {
+            padding: 15px;
+            overflow-x: auto;
+        }
+        
+        .error {
+            border-radius: 8px;
+        }
     }
 </style>
 
-<h2>📊 REPORTE PROMEDIO DE NOTAS</h2>
-
-{% if error %}
+<div class="reporte-container">
+ <h2>Reporte de Promedio</h2>
+    {% if error %}
     <div class="error">
-        ⚠️ {{ error }}
+         {{ error }}
     </div>
-{% endif %}
+    {% endif %}
 
-<form method="post">
-    {% csrf_token %}
-
-    <div style="margin-bottom: 20px;">
-        <label for="curso"><strong>Curso:</strong></label>
-
-        <select name="curso" id="curso" style="margin-left: 10px;">
-            <option value="">-- Seleccionar --</option>
+    <form method="post" class="form-selector">
+        {% csrf_token %}
+        <label for="curso"> Curso:</label>
+        <select name="curso" id="curso">
+            <option value="">-- Seleccionar Curso --</option>
             {% for curso in cursos %}
             <option value="{{ curso }}" {% if curso == curso_seleccionado %}selected{% endif %}>{{ curso }}</option>
             {% endfor %}
         </select>
+        <button type="submit" class="btn-generar">Generar Reporte</button>
+        <a href="{% url 'exportar_promedios' %}?curso={{ curso_seleccionado|urlencode }}" class="btn-pdf">Generar PDF</a>
+    </form>
 
-        <button type="submit" style="margin-left: 10px;">📊 Generar</button>
-        <button type="button" style="margin-left: 10px;" class="btn-pdf" onclick="window.location.href='/exportar_promedios/?curso={{ curso_seleccionado }}'">📄 Generar PDF</button>
+    <!-- GRÁFICO DE BARRAS -->
+    {% if grafico %}
+    <div class="grafico-container">
+        <h3>Gráfico de Promedios por Actividad</h3>
+        {{ grafico|safe }}
     </div>
-</form>
+    {% endif %}
 
-<!-- ========== GRÁFICO DE BARRAS ========== -->
-{% if grafico %}
-<div class="grafico-container">
-    <h3>📈 Gráfico de Promedios por Actividad</h3>
-    {{ grafico|safe }}
+    {% if mostrar %}
+    <div class="reporte-card">
+        <h3>Reporte Generado</h3>
+        
+        <div class="reporte-stats">
+            <div class="stat-item">
+                <div class="stat-label">📚 Curso</div>
+                <div class="stat-value">{{ reporte.curso }}</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-label">⭐ Promedio General</div>
+                <div class="stat-value">{{ reporte.promedio }}</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-label">📝 Total de Registros</div>
+                <div class="stat-value">{{ reporte.total_registros }}</div>
+            </div>
+        </div>
+
+        <h4>📊 Promedio por Actividad</h4>
+        <div class="table-wrapper">
+            <table class="actividades-table">
+                <thead>
+                    <tr>
+                        <th>Actividad</th>
+                        <th>Promedio</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for item in reporte.actividades %}
+                    <tr>
+                        <td>{{ item.actividad }}</td>
+                        <td><strong>{{ item.promedio }}</strong></td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+    {% endif %}
 </div>
-{% endif %}
-
-{% if mostrar %}
-<div class="reporte-container">
-    <h3>📋 Reporte generado</h3>
-    <p><strong>Curso:</strong> {{ reporte.curso }}</p>
-    <p><strong>Promedio general:</strong> {{ reporte.promedio }}</p>
-    <p><strong>Total de registros:</strong> {{ reporte.total_registros }}</p>
-
-    <h4>📊 Datos numéricos</h4>
-    <table>
-        <tr>
-            <th>Actividad</th>
-            <th>Promedio</th>
-        </tr>
-        {% for item in reporte.actividades %}
-        <tr>
-            <td>{{ item.actividad }}</td>
-            <td>{{ item.promedio }}</td>
-        </tr>
-        {% endfor %}
-    </table>
-</div>
-{% endif %}
-
 {% endblock %}

@@ -7,8 +7,6 @@ import plotly.graph_objects as go
 import plotly.offline as opy
 import os
 from django.conf import settings
-from graphviz import Digraph
-from weasyprint import HTML
 from datetime import datetime
 
 # ========== VALIDACIÓN DE NOTAS (0-100) ==========
@@ -288,6 +286,8 @@ def grafico_matriz(request):
 
 # ========== PRUEBA DE GRAPHVIZ ==========
 def prueba_graphviz(request):
+    from graphviz import Digraph
+
     static_dir = os.path.join(settings.BASE_DIR, 'static')
     if not os.path.exists(static_dir):
         os.makedirs(static_dir)
@@ -310,18 +310,22 @@ def exportar_pdf_promedios(request):
     curso_seleccionado = request.GET.get('curso', '770')
     
     # Obtener datos de Flask
-    response = requests.post(
-        'http://127.0.0.1:5000/api/reportes/promedio',
-        json={'curso': curso_seleccionado}
-    )
+    try:
+        response = requests.post(
+            'http://127.0.0.1:5000/api/reportes/promedio',
+            json={'curso': curso_seleccionado},
+            timeout=10,
+        )
+    except requests.RequestException as exc:
+        return HttpResponse(f"Error al conectar con el servidor de datos: {exc}", status=502)
     
     if response.status_code != 200:
-        return HttpResponse("Error al obtener datos del servidor")
+        return HttpResponse("Error al obtener datos del servidor", status=response.status_code)
     
     datos = response.json()
     
     if not datos.get('ok'):
-        return HttpResponse(datos.get('message', 'Error en los datos'))
+        return HttpResponse(datos.get('message', 'Error en los datos'), status=502)
     
     # Extraer actividades y promedios
     actividades = [act['actividad'] for act in datos['actividades']]
@@ -450,8 +454,18 @@ def exportar_pdf_promedios(request):
     response_pdf = HttpResponse(content_type='application/pdf')
     response_pdf['Content-Disposition'] = f'attachment; filename="reporte_promedios_{datos["curso"]}.pdf"'
     
-    # Generar el PDF
-    HTML(string=html_content).write_pdf(response_pdf)
+    try:
+        from weasyprint import HTML
+    except ImportError:
+        return HttpResponse(
+            "WeasyPrint no está instalado en el entorno. Instala la dependencia 'weasyprint' para generar PDFs.",
+            status=500,
+        )
+
+    try:
+        HTML(string=html_content).write_pdf(response_pdf)
+    except Exception as exc:
+        return HttpResponse(f"Error al generar el PDF: {exc}", status=500)
     
     return response_pdf
 # ========== EXPORTAR TOP NOTAS A PDF ==========
@@ -462,18 +476,22 @@ def exportar_pdf_top(request):
     actividad_seleccionada = request.GET.get('actividad', 'Tarea1')
     
     # Obtener datos de Flask para el TOP
-    response = requests.post(
-        'http://127.0.0.1:5000/api/reportes/top-notas',
-        json={'curso': curso_seleccionado, 'actividad': actividad_seleccionada}
-    )
+    try:
+        response = requests.post(
+            'http://127.0.0.1:5000/api/reportes/top-notas',
+            json={'curso': curso_seleccionado, 'actividad': actividad_seleccionada},
+            timeout=10,
+        )
+    except requests.RequestException as exc:
+        return HttpResponse(f"Error al conectar con el servidor de datos: {exc}", status=502)
     
     if response.status_code != 200:
-        return HttpResponse("Error al obtener datos")
+        return HttpResponse("Error al obtener datos", status=response.status_code)
     
     datos = response.json()
     
     if not datos.get('ok'):
-        return HttpResponse(datos.get('message', 'Error'))
+        return HttpResponse(datos.get('message', 'Error'), status=502)
     
     top = datos['top']
     
@@ -620,7 +638,17 @@ def exportar_pdf_top(request):
     response_pdf = HttpResponse(content_type='application/pdf')
     response_pdf['Content-Disposition'] = f'attachment; filename="reporte_top_{curso_seleccionado}_{actividad_seleccionada}.pdf"'
     
-    # Generar el PDF
-    HTML(string=html_content).write_pdf(response_pdf)
+    try:
+        from weasyprint import HTML
+    except ImportError:
+        return HttpResponse(
+            "WeasyPrint no está instalado en el entorno. Instala la dependencia 'weasyprint' para generar PDFs.",
+            status=500,
+        )
+
+    try:
+        HTML(string=html_content).write_pdf(response_pdf)
+    except Exception as exc:
+        return HttpResponse(f"Error al generar el PDF: {exc}", status=500)
     
     return response_pdf

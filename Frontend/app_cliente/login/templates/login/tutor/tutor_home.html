@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="es">
+    {% load static %}
+<head>
+    <meta charset="UTF-8">
+    <title>Panel Tutor</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        body { 
+            margin: 0; 
+            font-family: 'Segoe UI', Arial, Helvetica, sans-serif; 
+            background-color: #f0f2f5; 
+        }
+        
+        /* Topbar */
+        .topbar { 
+            position: fixed; 
+            top: 0; 
+            left: 0; 
+            width: 100%; 
+            height: 110px; 
+            background: #142752; 
+            display: flex; 
+            align-items: center; 
+            justify-content: center; 
+            color: white; 
+            z-index: 100; 
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .topbar h2 { 
+            margin: 0; 
+            font-size: 1.5rem;
+        }
+        
+        .topbar .logo {
+            position: absolute;
+            top: 15px;
+            right: 40px;
+            width: 140px;
+            max-width: 140px;
+            height: auto;
+            object-fit: contain;
+        }
+        
+        /* Contenido principal - centrado */
+        .content { 
+            margin: 0 auto;
+            margin-top: 90px; 
+            padding: 30px 40px 40px 40px; 
+            min-height: calc(100vh - 90px);
+            max-width: 1200px;
+            width: 100%;
+            position: relative; 
+            top: 50px;
+        }
+        
+        /* Hero card */
+        .hero { 
+            background: white; 
+            border-radius: 16px; 
+            padding: 32px; 
+            box-shadow: 0 12px 30px rgba(0,0,0,0.08); 
+            margin-bottom: 26px; 
+            transition: transform 0.2s ease;
+            text-align: center;
+        }
+        
+        .hero:hover {
+            transform: translateY(-2px);
+        }
+        
+        .hero h2 { 
+            margin: 0 0 14px; 
+            color: #142752; 
+            font-size: 1.8rem;
+            text-align: center;
+        }
+        
+        .hero p { 
+            margin: 0; 
+            color: #555; 
+            line-height: 1.8; 
+            font-size: 1rem;
+            text-align: center;
+        }
+        
+        /* Grid de tarjetas */
+        .grid { 
+            display: grid; 
+            gap: 24px; 
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); 
+        }
+        
+        .card { 
+            background: white; 
+            border-radius: 16px; 
+            padding: 28px; 
+            box-shadow: 0 10px 24px rgba(0,0,0,0.06); 
+            transition: all 0.3s ease;
+            text-align: center;
+        }
+        
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.12);
+        }
+        
+        .card h3 { 
+            margin: 0 0 12px; 
+            color: #142752; 
+            font-size: 1.3rem;
+        }
+        
+        .card p { 
+            margin: 0 0 20px; 
+            color: #666; 
+            line-height: 1.7; 
+        }
+        
+        .card a { 
+            display: inline-block; 
+            padding: 10px 20px; 
+            background: #142752; 
+            color: white; 
+            border-radius: 8px; 
+            text-decoration: none; 
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+        
+        .card a:hover { 
+            background: #1abc9c; 
+            transform: translateX(3px);
+        }
+        
+        /* Botón flotante de cerrar sesión */
+        .logout-btn {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background: #e74c3c;
+            color: white;
+            border: none;
+            border-radius: 50px;
+            padding: 12px 24px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            transition: all 0.3s ease;
+            z-index: 1000;
+            text-decoration: none;
+            font-family: 'Segoe UI', Arial, Helvetica, sans-serif;
+        }
+        
+        .logout-btn:hover {
+            background: #c0392b;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 16px rgba(0,0,0,0.2);
+        }
+        
+        .logout-btn:active {
+            transform: translateY(0);
+        }
+        
+        .logout-btn::before {
+              font-size: 18px;
+        }
+        
+        /* Responsive */
+        @media (max-width: 900px) { 
+            .content { 
+                margin-top: 90px;
+                padding: 120px 20px 80px 20px; 
+            }
+            
+            .topbar .logo {
+                width: 100px;
+                right: 20px;
+            }
+            
+            .logout-btn {
+                bottom: 20px;
+                right: 20px;
+                padding: 10px 20px;
+                font-size: 14px;
+            }
+            
+            .logout-btn::before {
+                font-size: 16px;
+            }
+        }
+        
+        /* Scrollbar personalizada */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        
+        ::-webkit-scrollbar-track {
+            background: #f1f1f1;
+        }
+        
+        ::-webkit-scrollbar-thumb {
+            background: #142752;
+            border-radius: 4px;
+        }
+        
+        ::-webkit-scrollbar-thumb:hover {
+            background: #1abc9c;
+        }
+    </style>
+</head>
+<body>
+    <div class="topbar">
+        <h2>Panel Tutor</h2>
+         <img class="logo" src="{% static 'Imagenes/logo.png' %}" alt="Logo">
+    </div>
+    
+    <div class="content">
+        <div class="hero">
+            <h2>Bienvenido, {{ request.session.nombre|default:request.session.user }}</h2>
+            <p>Este es tu panel principal como tutor. Desde aquí puedes administrar tus horarios, subir notas, generar reportes y ver el top de notas por actividad.</p>
+        </div>
+        <div class="grid">
+            <div class="card">
+                <h3>Horarios</h3>
+                <p>Sube o revisa tus horarios de clases en formato XML y consulta tus turnos disponibles.</p>
+                <a href="{% url 'tutor_horarios' %}">Ir a Horarios</a>
+            </div>
+            <div class="card">
+                <h3>Ingreso de Notas</h3>
+                <p>Carga las notas de tus estudiantes en XML y actualiza los registros académicos.</p>
+                <a href="{% url 'tutor_notas' %}">Registrar Notas</a>
+            </div>
+            <div class="card">
+                <h3>Reporte de Promedios</h3>
+                <p>Genera gráficos y reportes de promedio de notas por curso para un análisis rápido.</p>
+                <a href="{% url 'tutor_reporte_promedio' %}">Ver Reporte</a>
+            </div>
+            <div class="card">
+                <h3>Top de Notas</h3>
+                <p>Consulta el ranking de los mejores estudiantes en cada actividad.</p>
+                <a href="{% url 'tutor_top_notas' %}">Ver Top Notas</a>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Botón flotante de cerrar sesión -->
+    <a href="{% url 'logout' %}" class="logout-btn">
+        Cerrar Sesión
+    </a>
+</body>
+</html>

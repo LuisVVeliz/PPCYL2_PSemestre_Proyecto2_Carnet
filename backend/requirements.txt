@@ -1,2 +1,3 @@
 flask
+Django==6.0.4
 

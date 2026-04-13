@@ -3,6 +3,7 @@
 {% load static %}
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{% block title %}Panel de Estudiante{% endblock %}</title>
     <style>
         * {
@@ -17,12 +18,12 @@
             background-color: #f0f2f5;
         }
 
-       .topbar {
+        .topbar {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
-            height: 90px;
+            height: 110px;
             background: #142752;
             z-index: 100;
             display: flex;
@@ -38,7 +39,6 @@
             width: 100%;
         }
 
-
         .topbar .logo {
             position: absolute;
             top: 1px;
@@ -50,17 +50,35 @@
         }
         
         .sidebar {
-            width: 220px;
+            width: 250px;
             background: #142752;
             color: white;
-            height: calc(100vh - 90px);
+            height: calc(100vh - 110px);
             padding: 20px;
-            float: left;
+            position: fixed;
+            top: 110px;
+            left: 0;
+            overflow-y: auto;
             text-align: center;
-            position: relative;
-                top:10px;
-            
+            z-index: 99;
         }
+        
+        .sidebar a {
+            font-size: 17px;
+            display: block;
+            color: white;
+            padding: 12px 20px;
+            text-decoration: none;
+            margin-top: 20px;
+            text-align: center;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+        }
+
+        .sidebar a:hover { 
+            background: #1abc9c; 
+            transform: translateX(5px);
+        }  
         
         /* Scrollbar personalizada para sidebar */
         .sidebar::-webkit-scrollbar {
@@ -81,7 +99,7 @@
             height: 120px;
             background: linear-gradient(135deg, #fff, #f0f0f0);
             border-radius: 50%;
-            margin: 30px auto 15px auto;
+            margin: 20px auto 15px auto;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -96,78 +114,85 @@
         }
         
         .sidebar h3 {
-            margin: 0;
+            margin: 0 0 20px;
             text-align: center;
-            font-size: 1.1rem;
+            font-size: 1rem;
             font-weight: 500;
-            color: #fff;
+            color: #ecf0f1;
             padding: 0 15px;
             word-wrap: break-word;
         }
-        .sidebar a {
-            font-size: 17px;
-            display: block;
-            color: white;
-            padding: 20px;
-            text-decoration: none;
-            margin-top: 0%;
-            text-align: center;
-            position: relative;
-            top: 40px;
-        }
         
-        .sidebar a:hover { 
-            background: #1abc9c; 
-        }
-        
-        
+        /* Contenedor principal - ajustado */
         .container {
-            margin-left: 200px;
-            margin-top: 80px;
-            padding: 30px 40px;
-            min-height: calc(100vh - 80px);
+            margin-left: 270px;
+            margin-top: 130px;
+            padding: 20px 30px;
+            min-height: calc(100vh - 130px);
             background-color: #f0f2f5;
+            width: calc(100% - 270px);
         }
         
-        /* Tabla */
+        /* Tabla - mejor ajuste */
         .table-wrapper {
             background: white;
             border-radius: 12px;
-            overflow: hidden;
+            overflow-x: auto;
             box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+            margin-bottom: 20px;
         }
         
         table {
             width: 100%;
             border-collapse: collapse;
+            min-width: 600px;
         }
         
         th {
             background: #142752;
             color: white;
-            padding: 15px;
-            text-align: left;
+            padding: 15px 12px;
+            text-align: center;
             font-weight: 600;
             font-size: 0.95rem;
             letter-spacing: 0.5px;
+            white-space: nowrap;
         }
         
         td {
-            padding: 12px 15px;
-            text-align: left;
+            padding: 12px 12px;
+            text-align: center;
             border-bottom: 1px solid #e0e0e0;
             color: #333;
+            word-break: break-word;
         }
         
+         /* Anchos fijos y simétricos para las columnas */
+        th:nth-child(1), td:nth-child(1) {
+            width: 15%;
+        }
+        
+        th:nth-child(2), td:nth-child(2) {
+            width: 35%;
+        }
+        
+        th:nth-child(3), td:nth-child(3) {
+            width: 25%;
+        }
+        
+        th:nth-child(4), td:nth-child(4) {
+            width: 25%;
+        }
         
         /* Badges para tipos de usuario */
         .tipo-badge {
             display: inline-block;
-            padding: 5px 12px;
+            padding: 5px 15px;
             border-radius: 20px;
             font-size: 0.85rem;
             font-weight: 600;
             text-align: center;
+            white-space: nowrap;
         }
         
         .tipo-estudiante {
@@ -200,18 +225,27 @@
             font-size: 1rem;
         }
         
+        /* Efecto hover en filas */
+        tbody tr:hover {
+            background-color: #f8f9fa;
+            transition: background-color 0.2s ease;
+        }
+
         /* Responsive */
         @media (max-width: 768px) {
             .sidebar {
                 width: 100%;
                 height: auto;
                 position: relative;
-                top: 80px;
+                top: 110px;
+                left: 0;
             }
             
             .container {
                 margin-left: 0;
+                margin-top: 20px;
                 padding: 20px;
+                width: 100%;
             }
             
             .topbar h2 {
@@ -220,7 +254,7 @@
             }
             
             .topbar .logo {
-                height: 40px;
+                width: 100px;
                 right: 15px;
             }
             
@@ -233,13 +267,44 @@
                 padding: 8px 10px;
                 font-size: 0.85rem;
             }
+            
+            .tipo-badge {
+                padding: 3px 10px;
+                font-size: 0.75rem;
+            }
+            
+            .logout-btn {
+                bottom: 20px;
+                right: 20px;
+                padding: 10px 20px;
+                font-size: 14px;
+            }
+        }
+        
+        /* Scrollbar personalizada para toda la página */
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+        
+        ::-webkit-scrollbar-track {
+            background: #f1f1f1;
+        }
+        
+        ::-webkit-scrollbar-thumb {
+            background: #142752;
+            border-radius: 4px;
+        }
+        
+        ::-webkit-scrollbar-thumb:hover {
+            background: #1abc9c;
         }
     </style>
 </head>
 <body>
 <div class="topbar">
-    <h2>Panel de Estudiante</h2>
-    <img class="logo" src="{% static 'Imagenes/logo.jpg' %}" alt="Logo">
+    <h2>Panel de Estudiante - Mis Notas</h2>
+    <img class="logo" src="{% static 'Imagenes/logo.png' %}" alt="Logo">
 </div>
 
 <div class="sidebar">
@@ -247,7 +312,7 @@
         <img src="https://icones.pro/wp-content/uploads/2021/02/icone-utilisateur.png" alt="Usuario">
     </div>
     <h3>{{ request.session.user }}</h3>
-    <a href="{% url 'logout' %}" class="logout-btn">Cerrar Sesión</a>
+    <a href="{% url 'estudiante_home' %}"> Volver al Panel</a>
 </div>
 
 <div class="container">
@@ -260,7 +325,7 @@
         <table>
             <thead>
                 <tr>
-                    <th>ID / Carnet</th>
+                    <th>Carnet</th>
                     <th>Nombre de Usuario</th>
                     <th>Contraseña</th>
                     <th>Tipo de Usuario</th>

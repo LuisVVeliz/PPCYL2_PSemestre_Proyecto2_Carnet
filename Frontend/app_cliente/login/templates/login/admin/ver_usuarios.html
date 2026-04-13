@@ -19,7 +19,7 @@
             top: 0;
             left: 0;
             width: 100%;
-            height: 90px;
+            height: 110px;
             background: #142752;
             z-index: 100;
         }
@@ -29,6 +29,8 @@
             margin: 0;
             padding: 30px;
             text-align: center;
+            position: relative;
+            top: 20px;
         }
 
         .topbar .logo {
@@ -58,17 +60,18 @@
             font-size: 17px;
             display: block;
             color: white;
-            padding: 20px;
+            padding: 15px 20px;
             text-decoration: none;
-            margin-top: 0%;
+            margin-top: 40px;
             text-align: center;
-            position: relative;
-            top: 40px;
+            border-radius: 8px;
+            transition: background 0.3s;
         }
-        
-        .sidebar a:hover { 
-            background: #1abc9c; 
-        }
+
+.sidebar a:hover { 
+    background: #1abc9c; 
+}
+
         
         .avatar {
             width: 180px;
@@ -96,6 +99,8 @@
         .content {
             flex: 1;
             padding: 100px;
+            position: relative;
+            top: 90px;
         }
         table {
             width: 100%;
@@ -119,7 +124,7 @@
 <body>
     <div class="topbar">
     <h2>Panel de Administrador - Revisión de Usuarios</h2>
-    <img class="logo" src="{% static 'Imagenes/logo.jpg' %}" alt="Logo">
+    <img class="logo" src="{% static 'Imagenes/logo.png' %}" alt="Logo">
 </div>
 
 

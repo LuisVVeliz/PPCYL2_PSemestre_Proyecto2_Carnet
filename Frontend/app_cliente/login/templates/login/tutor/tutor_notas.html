@@ -3,37 +3,219 @@
 {% block title %}Ingreso de Notas{% endblock %}
 
 {% block content %}
-<h2>INGRESO DE NOTAS</h2>
+<style>
+    /* Contenedor principal */
+    .notas-container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 20px;
+        position: relative;
+        left: -60px;
+    }
+    
+    h2 {
+        color: #142752;
+        font-size: 1.8rem;
+        margin-bottom: 15px;
+        font-weight: 600;
+        text-align: center;
+    }
+    
+    .descripcion {
+        color: #555;
+        font-size: 1rem;
+        line-height: 1.6;
+        margin-bottom: 25px;
+        padding-bottom: 15px;
+        border-bottom: 2px solid #e0e0e0;
+    }
+    
+    /* Formulario de carga */
+    .upload-form {
+        background: white;
+        padding: 30px;
+        margin-bottom: 30px;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        border: 1px solid #ddd;
+    }
+    
+    .form-group {
+        display: flex;
+        align-items: center;
+        gap: 15px;
+        flex-wrap: wrap;
+    }
+    
+    /* Botón redondeado */
+    .upload-form button {
+        background: #142752;
+        color: white;
+        border: none;
+        padding: 12px 28px;
+        font-size: 1rem;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        border-radius: 50px;
+    }
+    
+    .upload-form button:hover {
+        background: #1abc9c;
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    }
+    
+    .upload-form button:active {
+        transform: translateY(0);
+    }
+    
+    .upload-form input[type="file"] {
+        padding: 8px 12px;
+        border: 1px solid #ddd;
+        font-size: 0.9rem;
+        cursor: pointer;
+        background: white;
+        flex: 1;
+        min-width: 200px;
+        border-radius: 8px;
+    }
+    
+    
+    .upload-form input[readonly] {
+        background: #f5f5f5;
+        border: 1px solid #ddd;
+        padding: 10px 15px;
+        font-size: 0.9rem;
+        color: #666;
+        width: 280px;
+        border-radius: 8px;
+    }
+    
+    /* Mensajes */
+    .message {
+        background-color: #d4edda;
+        color: #155724;
+        border: 1px solid #c3e6cb;
+        padding: 12px 20px;
+        margin-bottom: 20px;
+        font-weight: 500;
+        border-radius: 8px;
+    }
+    
+    .error {
+        background-color: #f8d7da;
+        color: #dc3545;
+        border: 1px solid #f5c6cb;
+        padding: 12px 20px;
+        margin-bottom: 20px;
+        font-weight: 500;
+        border-radius: 8px;
+    }
+    
+    /* Información adicional */
+    .info-box {
+        background: #f8f9fa;
+        border: 1px solid #ddd;
+        padding: 20px;
+        margin-top: 20px;
+    }
+    
+    .info-box h3 {
+        color: #142752;
+        font-size: 1.2rem;
+        margin-bottom: 10px;
+    }
+    
+    .info-box p {
+        color: #555;
+        line-height: 1.6;
+        margin-bottom: 8px;
+    }
+    
+    .info-box ul {
+        margin-left: 20px;
+        margin-top: 10px;
+        color: #555;
+    }
+    
+    .info-box li {
+        margin-bottom: 5px;
+        line-height: 1.5;
+    }
+    
+    /* Responsive */
+    @media (max-width: 768px) {
+        .notas-container {
+            padding: 15px;
+        }
+        
+        h2 {
+            font-size: 1.4rem;
+        }
+        
+        .upload-form {
+            padding: 20px;
+        }
+        
+        .form-group {
+            flex-direction: column;
+            align-items: stretch;
+        }
+        
+        .upload-form button {
+            width: 100%;
+            border-radius: 50px;
+        }
+        
+        .upload-form input[readonly] {
+            width: 100%;
+        }
+        
+        .info-box {
+            padding: 15px;
+        }
+        
+        .message, .error {
+            border-radius: 8px;
+        }
+    }
+</style>
 
-<p>
-    En esta seccion debes cargar un archivo XML con las notas de los estudiantes.
-</p>
-
-{% if mensaje %}
-<p class="message">{{ mensaje }}</p>
-{% endif %}
-
-{% if error %}
-<p class="error">{{ error }}</p>
-{% endif %}
-
-<form method="post" enctype="multipart/form-data">
-    {% csrf_token %}
-
-    <div style="margin-top: 20px;">
-        <button type="submit">Cargar Archivo XML/TXT de Notas</button>
-
-        <input type="file"
-               name="archivo_xml"
-               accept=".xml,.txt"
-               required
-               style="margin-left: 10px;">
-
-        <input type="text"
-               value="{{ archivo }}"
-               placeholder="Ningun archivo seleccionado"
-               readonly
-               style="margin-left: 10px; width: 260px;">
+<div class="notas-container">
+   <h2>Ingreso de Notas</h2>
+    <div class="descripcion">
+        En esta sección debes cargar un archivo XML con las notas de los estudiantes.
+        El archivo debe contener la estructura correcta para ser procesado correctamente.
     </div>
-</form>
+
+    {% if mensaje %}
+    <div class="message">{{ mensaje }}</div>
+    {% endif %}
+
+    {% if error %}
+    <div class="error">{{ error }}</div>
+    {% endif %}
+
+    <form method="post" enctype="multipart/form-data" class="upload-form">
+        {% csrf_token %}
+        
+        <div class="form-group">
+            <button type="submit">Cargar Archivo</button>
+            <input type="file" name="archivo_xml" accept=".xml,.txt" required>
+            <input type="text" value="{{ archivo|default:'Ningún archivo seleccionado' }}" placeholder="Ningún archivo seleccionado" readonly>
+        </div>
+    </form>
+
+    <div class="info-box">
+        <h3>Instrucciones:</h3>
+        <p>El archivo XML debe tener el siguiente formato:</p>
+        <ul>
+            <li>Extensión: .xml o .txt</li>
+            <li>Estructura válida con las notas de los estudiantes</li>
+            <li>Incluir carnet del estudiante, curso y calificación</li>
+            <li>No exceder el tamaño máximo permitido</li>
+        </ul>
+    </div>
+</div>
 {% endblock %}

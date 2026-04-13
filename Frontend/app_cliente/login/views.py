@@ -123,9 +123,9 @@ def login_view(request):
             if user.get("role") == "admin":
                 return redirect("admin_panel")
             if user.get("role") == "tutor":
-                return redirect("tutor_horarios")
+                return redirect("tutor_home")
             if user.get("role") == "estudiante":
-                return redirect("estudiante_notas")
+                return redirect("estudiante_home")
 
         return render(request, "login/login.html", {
             "error": response.get("message", "Usuario o contrasena incorrectos."),
@@ -143,7 +143,14 @@ def admin_panel(request):
     guard = _require_role(request, "admin")
     if guard:
         return guard
-    return render(request, "login/admin/admin.html")
+    return render(request, "login/admin/admin_home.html")
+
+
+def estudiante_home(request):
+    guard = _require_role(request, "estudiante")
+    if guard:
+        return guard
+    return render(request, "login/estudiante/estudiante_home.html")
 
 
 def cargar_xml(request):
@@ -220,6 +227,14 @@ def informacion(request):
         "carnet": request.session.get("user", ""),
         "documentacion_url": "Repositorio local",
     })
+
+
+def tutor_home(request):
+    guard = _require_role(request, "tutor")
+    if guard:
+        return guard
+
+    return render(request, "login/tutor/tutor_home.html")
 
 
 def tutor_horarios(request):
