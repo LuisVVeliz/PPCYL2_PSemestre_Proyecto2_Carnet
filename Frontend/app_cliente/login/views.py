@@ -422,11 +422,14 @@ def tutor_top_notas(request):
     return render(request, "login/tutor/tutor_top_notas.html", {
         "cursos": catalogo.get("cursos", []),
         "actividades": actividades,
+        "curso": curso,
+        "actividad": actividad,
         "curso_seleccionado": curso,
         "actividad_seleccionada": actividad,
+        "top_validas": response.get("top", []) if response.get("ok") else [],
         "mostrar": response.get("ok", False),
         "reporte": response if response.get("ok") else {},
-        "grafico": grafico_html,  # ← Nueva variable para el gráfico
+        "grafico": grafico_html,
         "error": response.get("message", "") if request.method == "POST" and not response.get("ok") else catalogo.get("message", ""),
     })
 

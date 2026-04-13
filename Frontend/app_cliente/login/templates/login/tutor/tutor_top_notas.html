@@ -240,7 +240,16 @@
 
 <div class="top-container">
     <h2>Top de Notas</h2>
-
+{% block sidebar %}
+    <!-- Sidebar vacío o solo lo que quieras -->
+    <div class="sidebar">
+        <div class="avatar">
+            <img src="https://icones.pro/wp-content/uploads/2021/02/icone-utilisateur.png" alt="Usuario">
+        </div>
+        <h3>{{ request.session.user }}</h3>
+        <a href="{% url 'tutor_home' %}">Volver al Panel</a>
+    </div>
+{% endblock %}
     {% if error %}
     <div class="error">
         ⚠️ {{ error }}
