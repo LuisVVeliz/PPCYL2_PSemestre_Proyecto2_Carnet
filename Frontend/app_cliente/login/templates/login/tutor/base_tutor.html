@@ -129,6 +129,7 @@
 <body>
 
 <div class="container">
+<<<<<<< HEAD
     <div class="topbar">
     <h2>Panel de Tutor</h2>
     <img class="logo" src="{% static 'Imagenes/logo.png' %}" alt="Logo">
@@ -137,6 +138,17 @@
 <div class="sidebar">
     <div class="avatar">
         <img src="https://icones.pro/wp-content/uploads/2021/02/icone-utilisateur.png" alt="Usuario">
+=======
+    <div class="sidebar">
+        <h3>Tutor</h3>
+        <a href="{% url 'tutor_horarios' %}">Horarios</a>
+        <a href="{% url 'tutor_notas' %}">Ingreso de Notas</a>
+        <a href="{% url 'tutor_reporte_promedio' %}">Reporte Promedios</a>
+        <a href="{% url 'tutor_top_notas' %}">Top Notas por Actividad</a>
+        <a href="/matriz/">📊 Matriz Dispersa</a>   <!-- ← AGREGAR ESTA LÍNEA -->
+        <hr>
+        <a href="{% url 'logout' %}">Cerrar sesion</a>
+>>>>>>> 1a10dfe4ceeb06c883915e92452bb8bdbe63576f
     </div>
     <h3>{{ request.session.user }}</h3>
     <a href="{% url 'tutor_home' %}"> Volver al Panel</a>
