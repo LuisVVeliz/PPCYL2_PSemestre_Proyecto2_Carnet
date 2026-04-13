@@ -87,6 +87,10 @@ def _catalogo():
     return {"cursos": [], "actividades_por_curso": {}, "message": response.get("message", "")}
 
 
+def landing_view(request):
+    return render(request, "login/landing.html")
+
+
 def login_view(request):
     if request.method == "POST":
         username = request.POST.get("username", "").strip()

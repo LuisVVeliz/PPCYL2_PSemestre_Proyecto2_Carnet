@@ -1,47 +1,210 @@
 <!DOCTYPE html>
 <html lang="es">
+{% load static %}
 <head>
     <meta charset="UTF-8">
     <title>Carga de Archivos</title>
     <style>
-        body { font-family: Arial, Helvetica, sans-serif; margin: 0; background: #f2f2f2; }
+        body { 
+            font-family: Arial, Helvetica, sans-serif; 
+            margin: 0; 
+            background: #f2f2f2; 
+            padding-top: 90px;
+        }
+        
+        .topbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 90px;
+            background: #142752;
+            z-index: 100;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .topbar h2 {
+            color: white;
+            margin: 0;
+            padding: 0 100px;
+            text-align: center;
+            width: 100%;
+        }
+
+       .topbar .logo {
+            position: absolute;
+            top: 1px;
+            right: 40px;
+            width: 40%;        
+            height: auto;
+            max-width: 160px;  
+            object-fit: contain;
+        }       
+        
         .sidebar {
             width: 220px;
-            background: #2d3e50;
+            background: #142752;
             color: white;
-            height: 100vh;
+            height: calc(100vh - 90px);
             padding: 20px;
             float: left;
+            text-align: center;
+            position: fixed;
+            
         }
+        
         .sidebar a {
+            font-size: 17px;
             display: block;
             color: white;
-            padding: 10px;
+            padding: 20px;
             text-decoration: none;
-            margin-bottom: 5px;
+            margin-top: 0%;
+            text-align: center;
+            position: relative;
+            top: 40px;
         }
-        .sidebar a:hover { background: #1abc9c; }
-        .content { margin-left: 240px; padding: 30px; }
+        
+        .sidebar a:hover { 
+            background: #1abc9c; 
+        }
+        
+        .avatar {
+            width: 180px;
+            height: 180px;
+            background: white;
+            border-radius: 50%;
+            margin: 20px auto 10px auto;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+        
+        .avatar img {
+            width: 180px;
+            height: 180px;
+            object-fit: cover;
+        }
+        
+        .sidebar h3 {
+            margin: 0;
+            margin-top: 15px;
+            text-align: center;
+        }
+        
+        .content { 
+            margin-left: 260px; 
+            padding: 30px;
+            max-width: 800px;
+        }
+        
         textarea {
             width: 100%;
             height: 140px;
             font-family: monospace;
+            border-radius: 5px;
+            border: 1px solid #ddd;
+            padding: 10px;
+            box-sizing: border-box;
+            position: relative;
+            top: 30px;
         }
-        button { margin-right: 10px; }
-        .message { color: green; margin: 15px 0; }
-        .error { color: #b00020; margin: 15px 0; }
+        .h3{
+            position: relative;
+            top: 40px;
+        }
+        
+        button { 
+            margin-right: 10px;
+            padding: 10px 20px;
+            background: #FFFFFF;
+            color: rgb(0, 0, 0);
+            border: 1px solid #000000;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+        
+        button:hover {
+            background: #1abc9c;
+        }
+        
+        .message { 
+            color: green; 
+            margin: 15px 0; 
+            padding: 10px;
+            background: #d4edda;
+            border-radius: 5px;
+        }
+        
+        .error { 
+            color: #b00020; 
+            margin: 15px 0;
+            padding: 10px;
+            background: #f8d7da;
+            border-radius: 5px;
+        }
+
+        input[type="file"] {
+            display: none; 
+        }
+        .custom-file-button {
+            display: inline-block;
+            padding: 10px 20px;
+            background: #FFFFFF;
+            color: rgb(0, 0, 0);
+            border: 1px solid #000000;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background 0.3s;
+            font-size: 14px;
+            margin-bottom: 15px;
+        }
+        .custom-file-button:hover {
+            background: #16a085;
+        }   
+        .file-name {
+            margin-left: 10px;
+            font-size: 14px;
+            color: #555;
+        }
     </style>
 </head>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        var archivoInput = document.getElementById('archivoInput');
+        if (archivoInput) {
+            archivoInput.addEventListener('change', function(e) {
+                var fileName = e.target.files[0] ? e.target.files[0].name : 'Ningún archivo seleccionado';
+                document.getElementById('nombreArchivo').innerText = fileName;
+            });
+        }
+    });
+</script>
+
 <body>
 
-<div class="sidebar">
-    <h3>Admin</h3>
-    <a href="{% url 'cargar_xml' %}">Cargar Archivo</a>
-    <a href="{% url 'admin_panel' %}">Volver al Panel</a>
+
+<div class="topbar">
+    <h2>Panel de Administrador - Carga de Archivos</h2>
+    <img class="logo" src="{% static 'Imagenes/logo.jpg' %}" alt="Logo">
 </div>
 
+
+<div class="sidebar">
+    <div class="avatar">
+        <img src="https://icones.pro/wp-content/uploads/2021/02/icone-utilisateur.png" alt="Usuario">
+    </div>
+    <h3>{{ request.session.user }}</h3>
+    <a href="{% url 'admin_panel' %}"> Volver</a>
+</div>
+
+
 <div class="content">
-    <h2>CARGA DE ARCHIVOS</h2>
 
     {% if mensaje %}
     <p class="message">{{ mensaje }}</p>
@@ -54,16 +217,20 @@
     <form method="post" enctype="multipart/form-data">
         {% csrf_token %}
 
-        <input type="file" name="archivo_xml" accept=".xml"><br><br>
+    <div style="margin-bottom: 15px;">
+        <label for="archivoInput" class="custom-file-button">Seleccionar archivo</label>
+        <input type="file" id="archivoInput" name="archivo_xml" accept=".xml" style="display: none;">
+        <span id="nombreArchivo" class="file-name">Ningún archivo seleccionado</span>
+    </div>
 
         <button type="submit">Cargar Archivo</button>
         <button type="submit" name="procesar">Procesar Datos</button>
         <button type="submit" name="limpiar">Limpiar Datos</button>
 
-        <h3>ENTRADA</h3>
+        <h3 class="h3">ENTRADA</h3>
         <textarea name="xml_entrada">{{ xml_entrada }}</textarea>
 
-        <h3>SALIDA</h3>
+        <h3 class="h3">SALIDA</h3>
         <textarea readonly>{{ xml_salida }}</textarea>
     </form>
 </div>

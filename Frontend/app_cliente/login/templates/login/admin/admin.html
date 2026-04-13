@@ -1,33 +1,122 @@
 <!DOCTYPE html>
 <html lang="es">
+    {% load static %}
 <head>
     <meta charset="UTF-8">
     <title>Administrador</title>
     <style>
-        body { font-family: Arial, Helvetica, sans-serif; background: #f2f2f2; margin: 0; }
+        body { 
+            font-family: Arial, Helvetica, sans-serif; 
+            background: #f2f2f2; 
+            margin: 0; 
+            height: 100vh; 
+        }
+
+        .topbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 90px;
+            background: #142752;
+            z-index: 100;
+        }
+        .topbar h2 {
+            color: white;
+            margin: 0;
+            padding: 30px;
+            text-align: center;
+        }
+
+        .topbar .logo {
+            position: absolute;
+            top: 1px;
+            right: 40px;
+            width: 40%;        
+            height: auto;
+            max-width: 160px;  
+            object-fit: contain;
+        } 
+
         .sidebar {
             width: 220px;
-            background: #2d3e50;
+            background: #142752;
             color: white;
-            height: 100vh;
+            height: 1000px;
             padding: 20px;
             float: left;
+            text-align: center;
+            position: relative;
+            top: 90px;
+            
         }
+        
         .sidebar a {
+            font-size: 17px;
             display: block;
             color: white;
-            padding: 10px;
+            padding: 20px;
             text-decoration: none;
-            margin-bottom: 5px;
+            margin-top: 0%;
+            text-align: center;
+            position: relative;
+            top: 30px;
         }
-        .sidebar a:hover { background: #1abc9c; }
-        .content { margin-left: 240px; padding: 30px; }
+        .sidebar a:hover { 
+            background: #1abc9c; 
+        }
+
+        .avatar {
+            width: 180px;
+            height: 180px;
+            background: white;
+            border-radius: 50%;
+            margin: 20px auto 10px auto;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+        
+        .avatar img {
+            width: 180px;
+            height: 180px;
+            object-fit: cover;
+        }
+        
+        .content { 
+            font-size: 22px;
+            margin-left: 600px;
+            margin-top: 250px;
+            padding: 40px; 
+            text-align: center; 
+            background: white; 
+            border-radius: 10px; 
+            box-shadow: 0 0 10px rgba(0,0,0,0.1); 
+            max-width: 600px;
+            position: absolute;
+            
+        }
+                @media (max-width: 700px) {
+            .content {
+                margin-left: 0;
+                width: 80%;
+            }
+        }
     </style>
 </head>
 <body>
 
+<div class="topbar">
+    <h2>Panel de administrador</h2>
+    <img class="logo" src="{% static 'Imagenes/logo.jpg' %}" alt="Logo">
+</div>
+
 <div class="sidebar">
-    <h3>Admin</h3>
+    <div class="avatar">
+        <img src="https://icones.pro/wp-content/uploads/2021/02/icone-utilisateur.png" alt="Usuario">
+    </div>
+    <h3 style="margin: 0; margin-top: 15px;">{{ request.session.user }}</h3>
     <a href="{% url 'cargar_xml' %}">Cargar Archivo XML</a>
     <a href="{% url 'ver_usuarios' %}">Ver Usuarios</a>
     <a href="{% url 'informacion' %}">Informacion</a>
@@ -35,8 +124,12 @@
 </div>
 
 <div class="content">
-    <h2>Panel del Administrador</h2>
-    <p>Bienvenido {{ request.session.user }}</p>
+    <p>¡Bienvenido {{ request.session.user }}! Cuando gustes
+        puedes cargar un nuevo archivo XML, revisar los usuarios 
+        registrados o ver la informacion. Cuando ya estes listo 
+        para salir apacha cerrar sesión. No te preocupes todas las
+        modificaciones que realices se guardarán automáticamente. Y estara 
+        todo listo para cuando quieras volver a ingresar.</p>
 </div>
 
 </body>

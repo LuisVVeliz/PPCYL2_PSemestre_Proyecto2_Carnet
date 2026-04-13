@@ -1,53 +1,292 @@
 <!DOCTYPE html>
 <html lang="es">
+{% load static %}
 <head>
     <meta charset="UTF-8">
-    <title>{% block title %}Estudiante{% endblock %}</title>
+    <title>{% block title %}Panel de Estudiante{% endblock %}</title>
     <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
         body {
             margin: 0;
-            font-family: Arial, Helvetica, sans-serif;
-            background-color: #f4f4f4;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f0f2f5;
         }
+
+       .topbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 90px;
+            background: #142752;
+            z-index: 100;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .topbar h2 {
+            color: white;
+            margin: 0;
+            padding: 0 100px;
+            text-align: center;
+            width: 100%;
+        }
+
+
+        .topbar .logo {
+            position: absolute;
+            top: 1px;
+            right: 40px;
+            width: 40%;        
+            height: auto;
+            max-width: 160px;  
+            object-fit: contain;
+        }
+        
+        .sidebar {
+            width: 220px;
+            background: #142752;
+            color: white;
+            height: calc(100vh - 90px);
+            padding: 20px;
+            float: left;
+            text-align: center;
+            position: relative;
+                top:10px;
+            
+        }
+        
+        /* Scrollbar personalizada para sidebar */
+        .sidebar::-webkit-scrollbar {
+            width: 5px;
+        }
+        
+        .sidebar::-webkit-scrollbar-track {
+            background: #1a3a6e;
+        }
+        
+        .sidebar::-webkit-scrollbar-thumb {
+            background: #1abc9c;
+            border-radius: 5px;
+        }
+        
+        .avatar {
+            width: 120px;
+            height: 120px;
+            background: linear-gradient(135deg, #fff, #f0f0f0);
+            border-radius: 50%;
+            margin: 30px auto 15px auto;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+        
+        .avatar img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
+        .sidebar h3 {
+            margin: 0;
+            text-align: center;
+            font-size: 1.1rem;
+            font-weight: 500;
+            color: #fff;
+            padding: 0 15px;
+            word-wrap: break-word;
+        }
+        .sidebar a {
+            font-size: 17px;
+            display: block;
+            color: white;
+            padding: 20px;
+            text-decoration: none;
+            margin-top: 0%;
+            text-align: center;
+            position: relative;
+            top: 40px;
+        }
+        
+        .sidebar a:hover { 
+            background: #1abc9c; 
+        }
+        
+        
         .container {
-            padding: 30px;
-            background-color: white;
-            min-height: 100vh;
+            margin-left: 200px;
+            margin-top: 80px;
+            padding: 30px 40px;
+            min-height: calc(100vh - 80px);
+            background-color: #f0f2f5;
         }
-        h2 { margin-top: 0; }
+        
+        /* Tabla */
+        .table-wrapper {
+            background: white;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+        }
+        
         table {
             width: 100%;
             border-collapse: collapse;
-            margin-top: 20px;
         }
-        th, td {
-            border: 1px solid #ccc;
-            padding: 10px;
+        
+        th {
+            background: #142752;
+            color: white;
+            padding: 15px;
             text-align: left;
+            font-weight: 600;
+            font-size: 0.95rem;
+            letter-spacing: 0.5px;
         }
-        th { background-color: #e0e0e0; }
-        .top-bar {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
+        
+        td {
+            padding: 12px 15px;
+            text-align: left;
+            border-bottom: 1px solid #e0e0e0;
+            color: #333;
         }
-        a {
-            text-decoration: none;
-            color: #2d3e50;
-            font-weight: bold;
+        
+        
+        /* Badges para tipos de usuario */
+        .tipo-badge {
+            display: inline-block;
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            text-align: center;
         }
-        .error { color: #b00020; }
+        
+        .tipo-estudiante {
+            background-color: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+        
+        .tipo-tutor {
+            background-color: #fff3cd;
+            color: #856404;
+            border: 1px solid #ffeeba;
+        }
+        
+        /* Mensaje de error */
+        .error {
+            color: #dc3545;
+            background-color: #f8d7da;
+            border: 1px solid #f5c6cb;
+            padding: 12px 20px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
+        
+        /* Mensaje vacío */
+        .empty-message {
+            text-align: center;
+            padding: 40px;
+            color: #6c757d;
+            font-size: 1rem;
+        }
+        
+        /* Responsive */
+        @media (max-width: 768px) {
+            .sidebar {
+                width: 100%;
+                height: auto;
+                position: relative;
+                top: 80px;
+            }
+            
+            .container {
+                margin-left: 0;
+                padding: 20px;
+            }
+            
+            .topbar h2 {
+                font-size: 1rem;
+                padding: 0 20px;
+            }
+            
+            .topbar .logo {
+                height: 40px;
+                right: 15px;
+            }
+            
+            .avatar {
+                width: 80px;
+                height: 80px;
+            }
+            
+            th, td {
+                padding: 8px 10px;
+                font-size: 0.85rem;
+            }
+        }
     </style>
 </head>
 <body>
+<div class="topbar">
+    <h2>Panel de Estudiante</h2>
+    <img class="logo" src="{% static 'Imagenes/logo.jpg' %}" alt="Logo">
+</div>
+
+<div class="sidebar">
+    <div class="avatar">
+        <img src="https://icones.pro/wp-content/uploads/2021/02/icone-utilisateur.png" alt="Usuario">
+    </div>
+    <h3>{{ request.session.user }}</h3>
+    <a href="{% url 'logout' %}" class="logout-btn">Cerrar Sesión</a>
+</div>
 
 <div class="container">
-    <div class="top-bar">
-        <h2>{% block header %}{% endblock %}</h2>
-        <a href="{% url 'logout' %}">Cerrar sesion</a>
-    </div>
+    {% if error %}
+    <div class="error">{{ error }}</div>
+    {% endif %}
 
-    {% block content %}{% endblock %}
+    {% block content %}
+    <div class="table-wrapper">
+        <table>
+            <thead>
+                <tr>
+                    <th>ID / Carnet</th>
+                    <th>Nombre de Usuario</th>
+                    <th>Contraseña</th>
+                    <th>Tipo de Usuario</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for u in usuarios %}
+                <tr>
+                    <td><strong>{{ u.id }}</strong></td>
+                    <td>{{ u.usuario }}</td>
+                    <td>••••••••</td>
+                    <td>
+                        <span class="tipo-badge {% if u.tipo == 'Estudiante' %}tipo-estudiante{% elif u.tipo == 'Tutor' %}tipo-tutor{% endif %}">
+                            {{ u.tipo }}
+                        </span>
+                    </td>
+                </tr>
+                {% empty %}
+                <tr>
+                    <td colspan="4" class="empty-message">No hay usuarios registrados</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    {% endblock %}
 </div>
 
 </body>

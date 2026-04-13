@@ -1,45 +1,116 @@
 {% extends 'login/estudiante/base_estudiante.html' %}
 
 {% block title %}Mis Notas{% endblock %}
-{% block header %}MIS NOTAS{% endblock %}
+{% block header %}Mis Notas{% endblock %}
 
 {% block content %}
-<form method="post">
+<style>
+    /* Estilos simples sin animaciones */
+    .filtro-notas {
+        background: white;
+        padding: 20px;
+        border-radius: 8px;
+        margin-bottom: 25px;
+        border: 1px solid #ddd;
+    }
+    
+    .filtro-notas select {
+        padding: 8px 12px;
+        font-size: 14px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        background: white;
+        min-width: 200px;
+    }
+    
+    .filtro-notas button {
+        padding: 8px 20px;
+        font-size: 14px;
+        background: #142752;
+        color: white;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        margin-left: 10px;
+    }
+    
+    .filtro-notas button:hover {
+        background: #1a3a6e;
+    }
+    
+    .tabla-notas {
+        width: 100%;
+        border-collapse: collapse;
+        background: white;
+        border: 1px solid #ddd;
+    }
+    
+    .tabla-notas th {
+        background: #142752;
+        color: white;
+        padding: 10px;
+        text-align: left;
+        font-weight: normal;
+        border: 1px solid #1a3a6e;
+    }
+    
+    .tabla-notas td {
+        padding: 10px;
+        border: 1px solid #ddd;
+        color: #333;
+    }
+    
+    .error {
+        color: #dc3545;
+        background: #f8d7da;
+        padding: 10px;
+        border-radius: 4px;
+        margin: 15px 0;
+        border: 1px solid #f5c6cb;
+    }
+    
+    .sin-datos {
+        text-align: center;
+        padding: 30px;
+        color: #666;
+    }
+</style>
+
+<form method="post" class="filtro-notas">
     {% csrf_token %}
-
-    <div style="margin-bottom: 20px;">
-        <select name="curso">
-            <option value="">Curso</option>
-            {% for curso in cursos %}
-            <option value="{{ curso }}" {% if curso == curso_seleccionado %}selected{% endif %}>{{ curso }}</option>
-            {% endfor %}
-        </select>
-
-        <button type="submit" style="margin-left: 10px;">Consultar</button>
-    </div>
+    <select name="curso">
+        <option value="">-- Seleccione un curso --</option>
+        {% for curso in cursos %}
+        <option value="{{ curso }}" {% if curso == curso_seleccionado %}selected{% endif %}>{{ curso }}</option>
+        {% endfor %}
+    </select>
+    <button type="submit">Consultar</button>
 </form>
 
 {% if error %}
 <p class="error">{{ error }}</p>
 {% endif %}
 
-<table>
-    <tr>
-        <th>Actividad</th>
-        <th>Nota</th>
-    </tr>
-
-    {% if notas %}
-        {% for n in notas %}
+<table class="tabla-notas">
+    <thead>
         <tr>
-            <td>{{ n.actividad }}</td>
-            <td>{{ n.valor }}</td>
+            <th>Actividad</th>
+            <th>Nota</th>
         </tr>
-        {% endfor %}
-    {% else %}
-        <tr>
-            <td colspan="2">No hay informacion para mostrar</td>
-        </tr>
-    {% endif %}
+    </thead>
+    <tbody>
+        {% if notas %}
+            {% for n in notas %}
+            <tr>
+                <td>{{ n.actividad }}</td>
+                <td>{{ n.valor }}</td>
+            </tr>
+            {% endfor %}
+        {% else %}
+            <tr>
+                <td colspan="2" class="sin-datos">No hay información para mostrar</td>
+            </tr>
+        {% endif %}
+    </tbody>
 </table>
 {% endblock %}

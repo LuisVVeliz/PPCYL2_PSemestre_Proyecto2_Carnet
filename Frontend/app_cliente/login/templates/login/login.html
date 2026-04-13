@@ -6,7 +6,7 @@
     <style>
         body {
             font-family: Arial, Helvetica, sans-serif;
-            background-color: #f2f2f2;
+            background: linear-gradient(135deg, #142752, #859398);
             display: flex;
             justify-content: center;
             align-items: center;
@@ -15,28 +15,36 @@
 
         .login-box {
             background: white;
-            padding: 30px;
-            width: 300px;
+            padding: 50px;
+            width: 400px;
             border: 1px solid #ccc;
         }
 
         h2 {
             text-align: center;
+            margin-bottom: 30px;
         }
 
         input {
-            width: 100%;
+            position: relative;
+            top: -10px;
+            width: 90%;
             padding: 8px;
-            margin: 8px 0;
+            margin: 8px auto;
+            display: block;
+            border: 1px solid #ccc;
         }
 
         button {
-            width: 100%;
+            width: 50%;
+            margin: 0 auto;
+            display: block;
             padding: 10px;
             background: #2d3e50;
             color: white;
             border: none;
             cursor: pointer;
+
         }
 
         button:hover {

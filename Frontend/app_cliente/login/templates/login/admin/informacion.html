@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="es">
+    {% load static %}
 <head>
     <meta charset="UTF-8">
     <title>Informacion</title>
@@ -13,52 +14,176 @@
             display: flex;
             min-height: 100vh;
         }
+        .topbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 90px;
+            background: #142752;
+            z-index: 100;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .topbar h2 {
+            color: white;
+            margin: 0;
+            padding: 0 100px;
+            text-align: center;
+            width: 100%;
+        }
+
+       .topbar .logo {
+            position: absolute;
+            top: 1px;
+            right: 40px;
+            width: 40%;        
+            height: auto;
+            max-width: 160px;  
+            object-fit: contain;
+        }       
+        
         .sidebar {
             width: 220px;
-            background-color: #2d3e50;
+            background: #142752;
             color: white;
+            height: calc(100vh - 90px);
             padding: 20px;
+            float: left;
+            text-align: center;
+            position: relative;
+            top: 90px;
+            
         }
+        
         .sidebar a {
+            font-size: 17px;
             display: block;
             color: white;
-            padding: 10px;
+            padding: 20px;
             text-decoration: none;
-            margin-bottom: 5px;
+            margin-top: 0%;
+            text-align: center;
+            position: relative;
+            top: 40px;
         }
-        .sidebar a:hover { background-color: #1abc9c; }
+        
+        .sidebar a:hover { 
+            background: #1abc9c; 
+        }
+        
+        .avatar {
+            width: 180px;
+            height: 180px;
+            background: white;
+            border-radius: 50%;
+            margin: 20px auto 10px auto;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+        
+        .avatar img {
+            width: 180px;
+            height: 180px;
+            object-fit: cover;
+        }
+        
+        .sidebar h3 {
+            margin: 0;
+            margin-top: 15px;
+            text-align: center;
+        }
+        
         .content {
             flex: 1;
-            padding: 40px;
+            padding: 120px 40px 40px 280px;
+            position: relative;
         }
         .info-card {
-            width: 420px;
-            background: white;
-            border: 1px solid #ccc;
-            padding: 20px;
+            margin: 0 auto;
+            padding: 40px; 
+            text-align: center; 
+            background: white; 
+            border-radius: 10px; 
+            box-shadow: 0 0 10px rgba(0,0,0,0.1); 
+            max-width: 800px;
+            position: relative;
         }
-        .info-card p { margin: 10px 0; }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+            background: white;
+        }
+        th, td {
+            border: 1px solid #ccc;
+            padding: 10px;
+            text-align: center;
+        }
+        th {
+            background-color: #142752;
+            color: white;
+        }
     </style>
 </head>
 <body>
 
-<div class="container">
-    <div class="sidebar">
-        <h3>Admin</h3>
-        <a href="{% url 'cargar_xml' %}">Cargar Archivo</a>
-        <a href="{% url 'ver_usuarios' %}">Ver Usuarios</a>
-        <a href="{% url 'informacion' %}">Informacion</a>
-        <a href="{% url 'admin_panel' %}">Volver</a>
-    </div>
+     <div class="topbar">
+    <h2>Panel de Administrador - Información</h2>
+    <img class="logo" src="{% static 'Imagenes/logo.jpg' %}" alt="Logo">
+</div>
 
-    <div class="content">
+
+<div class="sidebar">
+    <div class="avatar">
+        <img src="https://icones.pro/wp-content/uploads/2021/02/icone-utilisateur.png" alt="Usuario">
+    </div>
+    <h3>{{ request.session.user }}</h3>
+    <a href="{% url 'admin_panel' %}"> Volver</a>
+</div>
+
+<div class="content">
+    <div class="info-card">
         <h2>INFORMACION</h2>
 
-        <div class="info-card">
-            <p><strong>Nombre:</strong> {{ nombre_completo }}</p>
-            <p><strong>Usuario:</strong> {{ carnet }}</p>
-            <p><strong>Documentacion:</strong> {{ documentacion_url }}</p>
-        </div>
+        <p><strong>Nombre:</strong> {{ nombre_completo }}</p>
+        <p><strong>Usuario:</strong> {{ carnet }}</p>
+        <p><strong>Repertorio:</strong> <a href="https://github.com/LuisVVeliz/PPCYL2_PSemestre_Proyecto2_Carnet.git" target="_blank">Repositorio GitHub</a></p>
+
+        <h2>INTEGRANTES</h2>
+
+        <table>
+            <tr>
+                <th>Nombre</th>
+                <th>Apellidos</th>
+                <th>Carnet</th>
+            </tr>
+
+            <tr>
+                <td>Rudy Rolando</td>
+                <td>Mejia Marroquín</td>
+                <td>1492-25-1685</td>
+            </tr>
+            <tr>
+                <td>David Rolando</td>
+                <td>Velásquez López</td>
+                <td>1492-25-197</td>
+            </tr>
+            <tr>
+                <td>Luis Rolando</td>
+                <td>Veliz Vicente</td>
+                <td>1492-25-486</td>
+            </tr>
+            <tr>
+                <td>Massiel Ivanova</td>
+                <td>Castellanos Pérez</td>
+                <td>1492-25-203</td>
+            </tr>
+        </table>
     </div>
 </div>
 
