@@ -8,4 +8,4 @@ Diagrama de Clases
 
 Ensayo
 
-[Ver Ensayo](/Ensayo,%20Proyecto%20%232%20(1)%20(1).pdf)
+[Ver Ensayo]([/Ensayo,%20Proyecto%20%232%20(1)%20(1).pdf])
