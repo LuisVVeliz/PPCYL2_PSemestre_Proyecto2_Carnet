@@ -8,4 +8,4 @@ Diagrama de Clases
 
 Ensayo
 
-[Ver Ensayo](./ENSAYO%20PROYECTO%202%20GRUPO%20DE%20PORGRAMACION.pdf)
+[Ver Ensayo](file:///C:/Users/massi/Downloads/Ensayo,%20Proyecto%20%232%20(1)%20(1).pdf)
