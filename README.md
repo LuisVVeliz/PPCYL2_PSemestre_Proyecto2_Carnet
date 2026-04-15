@@ -7,5 +7,6 @@ Diagrama de Clases
 
 
 Ensayo
+[Ver Ensayo](./ENSAYO%20PROYECTO%202%20TERMINADO.pdf)
 
 
